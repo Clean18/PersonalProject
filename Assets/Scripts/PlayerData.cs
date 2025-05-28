@@ -13,6 +13,7 @@ public class PlayerData : MonoBehaviour
 	[SerializeField] public bool mouseHold = true;
 	[SerializeField] public Vector2 mouseDir;
 	[SerializeField] public float rotationX = 0f;
+	[SerializeField] public LayerMask groundLayer;
 
 	void Awake()
 	{
