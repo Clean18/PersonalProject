@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
 	public Rigidbody rigid;
+	public Animator anim;
 
 	[SerializeField] public float moveSpeed;
 	[SerializeField] public float mouseSensitivity;
@@ -18,5 +19,6 @@ public class PlayerData : MonoBehaviour
 	void Awake()
 	{
 		rigid = GetComponent<Rigidbody>();
+		anim = GetComponent<Animator>();
 	}
 }

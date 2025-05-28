@@ -63,7 +63,15 @@ public class PlayerController : MonoBehaviour
 		if (!data.canMove)
 			return;
 
+
 		Vector3 moveInput = GetMoveInput();
+
+		bool isWalking = moveInput != Vector3.zero;
+
+		data.anim.SetBool("IsWalk", isWalking);
+		data.anim.SetFloat("Z", moveInput.z);
+		data.anim.SetFloat("X", moveInput.x);
+
 		Vector3 moveDir = transform.right * moveInput.x + transform.forward * moveInput.z;
 		
 		// 바닥의 경사에 따라 이동벡터 보정
@@ -97,7 +105,7 @@ public class PlayerController : MonoBehaviour
 			z = Input.GetAxis("Vertical");
 		}
 
-		return new Vector3(x, 0, z);
+		return new Vector3(x, 0, z).normalized;
 	}
 
 	public void SetMouseHold()
