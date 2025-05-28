@@ -17,9 +17,20 @@ public class PlayerController : MonoBehaviour
 	{
 		Look();
 
-		if (Input.GetKeyDown(KeyCode.Escape))
-			SetMouseHold();
-			
+		// 마우스 커서 활성화 / 비활성화
+		// ESC면 false, 클릭이면 true
+		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Mouse0))
+			SetMouseHold(Input.GetKeyDown(KeyCode.Mouse0));
+
+		// 손전등 활성화 / 비활성화
+		if (Input.GetKeyDown(KeyCode.R))
+			ItemEvent.OnToggle?.Invoke("Flashlight");
+
+		// 상호작용
+		if (Input.GetKeyDown(KeyCode.E))
+			Interact();
+
+
 	}
 
 	void FixedUpdate()
@@ -29,14 +40,18 @@ public class PlayerController : MonoBehaviour
 
 	public void Look()
 	{
-
 		Vector2 lookInput = GetLookInput();
 
+		// 처음 0f 에서 상하
 		data.rotationX -= lookInput.y;
 		data.rotationX = Mathf.Clamp(data.rotationX, -90f, 90f);
 
+		// 수직
 		data.cameraTransform.localRotation = Quaternion.Euler(data.rotationX, 0, 0);
-		transform.Rotate(Vector3.up * lookInput.x, Space.World);
+
+		// 수평
+		Quaternion deltaRotation = Quaternion.Euler(0f, lookInput.x, 0f);
+		data.rigid.MoveRotation(data.rigid.rotation * deltaRotation);
 	}
 
 	private Vector2 GetLookInput()
@@ -56,14 +71,35 @@ public class PlayerController : MonoBehaviour
 		if (!data.canMove)
 			return;
 
-		Vector3 movementInput = GetMoveInput();
 
-		Vector3 move = transform.right * movementInput.x + transform.forward * movementInput.z;
+		Vector3 moveInput = GetMoveInput();
 
-		Vector3 currentVelocity = data.rigid.velocity;
+		bool isWalking = moveInput != Vector3.zero;
 
-		Vector3 targetVelocity = move.normalized * data.moveSpeed;
-		data.rigid.velocity = new Vector3(targetVelocity.x, currentVelocity.y, targetVelocity.z);
+		data.anim.SetBool("IsWalk", isWalking);
+		data.anim.SetFloat("Z", moveInput.z);
+		data.anim.SetFloat("X", moveInput.x);
+
+		Vector3 moveDir = transform.right * moveInput.x + transform.forward * moveInput.z;
+		
+		// 바닥의 경사에 따라 이동벡터 보정
+		Vector3 fixedDir = IsSlope(out RaycastHit hit) ? Vector3.ProjectOnPlane(moveDir, hit.normal).normalized : moveDir;
+
+		Vector3 moveDelta = fixedDir * data.moveSpeed * Time.fixedDeltaTime;
+		data.rigid.MovePosition(data.rigid.position + moveDelta);
+	}
+
+
+	bool IsSlope(out RaycastHit hit)
+	{
+		// 바닥으로 레이쏴서 언덕 구분
+		Vector3 origin = transform.position + Vector3.up;
+		if (Physics.Raycast(origin, Vector3.down, out hit, 1.5f, data.groundLayer))
+		{
+			float angle = Vector3.Angle(hit.normal, Vector3.up); // 바닥의 기울기 각도
+			return angle > 0.1f; // 경사도 0.1도 이상이면 경사로 간주
+		}
+		return false;
 	}
 
 	private Vector3 GetMoveInput()
@@ -76,21 +112,31 @@ public class PlayerController : MonoBehaviour
 			z = Input.GetAxis("Vertical");
 		}
 
-		return new Vector3(x, 0, z);
+		return new Vector3(x, 0, z).normalized;
 	}
 
 	public void SetMouseHold()
 	{
-		data.mouseHold = !data.mouseHold;
-		if (data.mouseHold)
+		SetMouseHold(!data.mouseHold);
+	}
+
+	public void SetMouseHold(bool enable)
+	{
+		data.mouseHold = enable;
+
+		Cursor.lockState = data.mouseHold == true ? CursorLockMode.Locked : CursorLockMode.None;
+		Cursor.visible = !data.mouseHold;
+	}
+
+	public void Interact()
+	{
+		Ray ray = new Ray(data.cameraTransform.position, data.cameraTransform.forward);
+		Debug.DrawRay(ray.origin, ray.direction * data.interactRayDistance, Color.red, 2f);
+		RaycastHit[] hits = Physics.RaycastAll(ray, data.interactRayDistance);
+		foreach (RaycastHit hit in hits)
 		{
-			Cursor.lockState = CursorLockMode.Locked; // 마우스를 화면 중앙에 고정
-			Cursor.visible = false;                   // 마우스 커서를 숨김
-		}
-		else
-		{
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
+			IInteractable obj = hit.collider.GetComponent<IInteractable>();
+			obj?.Use(data);
 		}
 	}
 }
