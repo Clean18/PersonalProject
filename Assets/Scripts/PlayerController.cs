@@ -22,7 +22,11 @@ public class PlayerController : MonoBehaviour
 		
 		if (Input.GetKeyDown(KeyCode.Mouse0))
 			SetMouseHold(true);
-			
+
+		if (Input.GetKeyDown(KeyCode.E))
+			Interact();
+
+
 	}
 
 	void FixedUpdate()
@@ -135,6 +139,18 @@ public class PlayerController : MonoBehaviour
 		{
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
+		}
+	}
+
+	public void Interact()
+	{
+		Ray ray = new Ray(data.cameraTransform.position, data.cameraTransform.forward);
+		Debug.DrawRay(ray.origin, ray.direction * data.interactRayDistance, Color.red, 2f);
+		RaycastHit[] hits = Physics.RaycastAll(ray, data.interactRayDistance);
+		foreach (RaycastHit hit in hits)
+		{
+			IInteractable obj = hit.collider.GetComponent<IInteractable>();
+			obj?.Use(data);
 		}
 	}
 }

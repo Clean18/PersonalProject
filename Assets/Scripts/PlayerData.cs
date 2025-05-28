@@ -15,6 +15,7 @@ public class PlayerData : MonoBehaviour
 	[SerializeField] public Vector2 mouseDir;
 	[SerializeField] public float rotationX = 0f;
 	[SerializeField] public LayerMask groundLayer;
+	[SerializeField] public float interactRayDistance;
 
 	void Awake()
 	{
