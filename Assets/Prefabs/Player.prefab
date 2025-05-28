@@ -212,6 +212,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
+  interactRayDistance: 1.5
 --- !u!54 &8044886780150618362
 Rigidbody:
   m_ObjectHideFlags: 0

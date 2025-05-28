@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum InteractType
 {
-	None, TV, Test
+	None, TV, Flashlight
 }
 
 public class FieldObject : MonoBehaviour, IInteractable
@@ -16,8 +16,15 @@ public class FieldObject : MonoBehaviour, IInteractable
 	{
 		switch (interactType)
 		{
-			case InteractType.Test:
-				Debug.Log("상호작용 테스트");
+			case InteractType.Flashlight:
+
+				Debug.Log("손전등 획득");
+				// 플레이어 손전등 활성화
+				data.flashLight.SetPickup();
+
+				// 필드에 있던 손전등 파괴
+				gameObject.SetActive(false);
+				Destroy(gameObject);
 				break;
 
 			default:

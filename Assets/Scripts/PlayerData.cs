@@ -7,6 +7,9 @@ public class PlayerData : MonoBehaviour
 	public Rigidbody rigid;
 	public Animator anim;
 
+	public Flashlight flashLight;
+	public Transform flashlightTransform;
+
 	[SerializeField] public float moveSpeed;
 	[SerializeField] public float mouseSensitivity;
 	[SerializeField] public bool canMove = true;
@@ -21,5 +24,10 @@ public class PlayerData : MonoBehaviour
 	{
 		rigid = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
+	}
+
+	void Start()
+	{
+		flashLight.gameObject.SetActive(false);
 	}
 }

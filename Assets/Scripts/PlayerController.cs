@@ -17,12 +17,16 @@ public class PlayerController : MonoBehaviour
 	{
 		Look();
 
-		if (Input.GetKeyDown(KeyCode.Escape))
-			SetMouseHold();
-		
-		if (Input.GetKeyDown(KeyCode.Mouse0))
-			SetMouseHold(true);
+		// 마우스 커서 활성화 / 비활성화
+		// ESC면 false, 클릭이면 true
+		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Mouse0))
+			SetMouseHold(Input.GetKeyDown(KeyCode.Mouse0));
 
+		// 손전등 활성화 / 비활성화
+		if (Input.GetKeyDown(KeyCode.R))
+			ItemEvent.OnToggle?.Invoke("Flashlight");
+
+		// 상호작용
 		if (Input.GetKeyDown(KeyCode.E))
 			Interact();
 
@@ -98,7 +102,6 @@ public class PlayerController : MonoBehaviour
 		return false;
 	}
 
-
 	private Vector3 GetMoveInput()
 	{
 		float x = 0;
@@ -114,32 +117,15 @@ public class PlayerController : MonoBehaviour
 
 	public void SetMouseHold()
 	{
-		data.mouseHold = !data.mouseHold;
-		if (data.mouseHold)
-		{
-			Cursor.lockState = CursorLockMode.Locked; // 마우스를 화면 중앙에 고정
-			Cursor.visible = false;                   // 마우스 커서를 숨김
-		}
-		else
-		{
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-		}
+		SetMouseHold(!data.mouseHold);
 	}
 
 	public void SetMouseHold(bool enable)
 	{
 		data.mouseHold = enable;
-		if (data.mouseHold)
-		{
-			Cursor.lockState = CursorLockMode.Locked; // 마우스를 화면 중앙에 고정
-			Cursor.visible = false;                   // 마우스 커서를 숨김
-		}
-		else
-		{
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-		}
+
+		Cursor.lockState = data.mouseHold == true ? CursorLockMode.Locked : CursorLockMode.None;
+		Cursor.visible = !data.mouseHold;
 	}
 
 	public void Interact()
