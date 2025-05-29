@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,25 +32,24 @@ public class PlayerController : MonoBehaviour
 	void FixedUpdate()
 	{
 		Move();
+		data.rigid.angularVelocity = Vector3.zero;
 	}
 
 	public void Look()
 	{
 		Vector2 lookInput = GetLookInput();
 
-		// 처음 0f 에서 상하
+		// 수직 : 카메라
 		data.rotationX -= lookInput.y;
 		data.rotationX = Mathf.Clamp(data.rotationX, -90f, 90f);
-
-		// 수직
 		data.cameraTransform.localRotation = Quaternion.Euler(data.rotationX, 0, 0);
 
-		// 수평
-		Quaternion deltaRotation = Quaternion.Euler(0f, lookInput.x, 0f);
-		data.rigid.MoveRotation(data.rigid.rotation * deltaRotation);
+		// 수평 : 플레이어
+		float newY = transform.eulerAngles.y + lookInput.x;
+		transform.rotation = Quaternion.Euler(0, newY, 0);
 	}
 
-	private Vector2 GetLookInput()
+	Vector2 GetLookInput()
 	{
 		float mouseX = 0;
 		float mouseY = 0;
@@ -71,7 +66,6 @@ public class PlayerController : MonoBehaviour
 		if (!data.canMove)
 			return;
 
-
 		Vector3 moveInput = GetMoveInput();
 
 		bool isWalking = moveInput != Vector3.zero;
@@ -80,8 +74,10 @@ public class PlayerController : MonoBehaviour
 		data.anim.SetFloat("Z", moveInput.z);
 		data.anim.SetFloat("X", moveInput.x);
 
-		Vector3 moveDir = transform.right * moveInput.x + transform.forward * moveInput.z;
-		
+		Vector3 forward = Vector3.ProjectOnPlane(data.cameraTransform.forward, Vector3.up).normalized;
+		Vector3 right = Vector3.ProjectOnPlane(data.cameraTransform.right, Vector3.up).normalized;
+		Vector3 moveDir = right * moveInput.x + forward * moveInput.z;
+
 		// 바닥의 경사에 따라 이동벡터 보정
 		Vector3 fixedDir = IsSlope(out RaycastHit hit) ? Vector3.ProjectOnPlane(moveDir, hit.normal).normalized : moveDir;
 
@@ -102,7 +98,7 @@ public class PlayerController : MonoBehaviour
 		return false;
 	}
 
-	private Vector3 GetMoveInput()
+	Vector3 GetMoveInput()
 	{
 		float x = 0;
 		float z = 0;
@@ -111,7 +107,6 @@ public class PlayerController : MonoBehaviour
 			x = Input.GetAxis("Horizontal");
 			z = Input.GetAxis("Vertical");
 		}
-
 		return new Vector3(x, 0, z).normalized;
 	}
 
