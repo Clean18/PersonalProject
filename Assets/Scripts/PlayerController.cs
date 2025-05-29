@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Reflection.Emit;
+using Unity.Burst.CompilerServices;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,7 +13,11 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
+		// 카메라 방향
 		Look();
+
+		// 에임 위치에 레이로 아이템 이름 표시
+		ShowItemName();
 
 		// 마우스 커서 활성화 / 비활성화
 		// ESC면 false, 클릭이면 true
@@ -132,6 +138,37 @@ public class PlayerController : MonoBehaviour
 		{
 			IInteractable obj = hit.collider.GetComponent<IInteractable>();
 			obj?.Use(data);
+		}
+	}
+
+	public void ShowItemName()
+	{
+		Ray ray = new Ray(data.cameraTransform.position, data.cameraTransform.forward);
+		Debug.DrawRay(ray.origin, ray.direction * data.interactRayDistance, Color.red, 1f);
+		if (Physics.Raycast(ray, out RaycastHit hit, data.interactRayDistance))
+		{
+			// 인터렉터블 오브젝트인지 체크
+			if (hit.collider.CompareTag("FieldObject"))
+			{
+				FieldObject newTarget;
+
+				if (DataTable.CachingFieldObject.TryGetValue(hit.transform, out newTarget))
+				{
+					if (data.textTarget != newTarget)
+					{
+						data.textTarget?.SetText(false);
+						data.textTarget = newTarget;
+						data.textTarget.SetText(true);
+					}
+					return;
+				}
+			}
+		}
+
+		if (data.textTarget != null)
+		{
+			data.textTarget?.SetText(false);
+			data.textTarget = null;
 		}
 	}
 }

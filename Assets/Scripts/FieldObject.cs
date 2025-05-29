@@ -1,16 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEditor.UI;
 
 public enum InteractType
 {
-	None, TV, Flashlight
+	None, TV, Flashlight, Book, 
 }
 
 public class FieldObject : MonoBehaviour, IInteractable
 {
 	public InteractType interactType;
+	public Transform textTransform;
+	public TMP_Text itemText;
 
+	void Start()
+	{
+		DataTable.CachingFieldObject.Add(transform, this);
+
+		itemText.text = DataTable.CachingString[interactType];
+		textTransform.gameObject.SetActive(false);
+	}
+
+	void Update()
+	{
+		if (textTransform.gameObject.activeSelf)
+		{
+			textTransform.rotation = Camera.main.transform.rotation;
+		}
+	}
+
+	public void SetText(bool enable)
+	{
+		textTransform.gameObject.SetActive(enable);
+	}
 
 	public void Use(PlayerData data)
 	{

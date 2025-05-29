@@ -6,7 +6,7 @@ public class Flashlight : MonoBehaviour
 {
     public Light flashlight;
 	public Transform cameraTransform;
-	public bool isPickup = false;
+	public static bool isPickup = false;
 
 	void Awake()
 	{
