@@ -33,6 +33,10 @@ public class FieldObject : MonoBehaviour, IInteractable
 
 	public void SetText(bool enable)
 	{
+		// Destroy 예외처리
+		if (textTransform == null || textTransform.gameObject == null)
+			return;
+
 		textTransform.gameObject.SetActive(enable);
 	}
 
