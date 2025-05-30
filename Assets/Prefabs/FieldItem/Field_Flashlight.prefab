@@ -420,6 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashlight: {fileID: 0}
   cameraTransform: {fileID: 0}
+  gameInfoText: {fileID: 0}
 --- !u!65 &6864068873556420568
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -455,6 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactType: 2
   textTransform: {fileID: 3618723146456852980}
+  itemText: {fileID: 649794632080702499}
 --- !u!1 &7486679378691446875
 GameObject:
   m_ObjectHideFlags: 0

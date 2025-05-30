@@ -66,7 +66,9 @@ public class Flashlight : MonoBehaviour
 		if (key != "Flashlight")
 			return;
 
-		gameInfoText.text = DataTable.CachingFlashlightText[isPickup];
+		// 필드 손전등은 참조안되어있음
+		if (gameInfoText != null)
+			gameInfoText.text = DataTable.CachingFlashlightText[isPickup];
 	}
 
 	public void SetPickup()
