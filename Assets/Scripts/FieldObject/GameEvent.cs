@@ -5,7 +5,7 @@ using System;
 
 public static class GameEvent
 {
-    public static Action<string> OnToggle;
-    public static Action<string> OnPickup;
-    public static Action<string> OnInteract;
+    public static Action<string, FieldObject> OnToggle;
+    public static Action<string, FieldObject> OnPickup;
+    public static Action<string, FieldObject> OnInteract;
 }

@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
-using UnityEditor.UI;
 
 public enum InteractType
 {
@@ -54,7 +51,6 @@ public class FieldObject : MonoBehaviour, IInteractable
 		switch (interactType)
 		{
 			case InteractType.Flashlight:
-				Debug.Log("손전등 획득");
 				// 플레이어 손전등 활성화
 				data.flashLight.SetPickup();
 
@@ -64,26 +60,16 @@ public class FieldObject : MonoBehaviour, IInteractable
 				break;
 
 			case InteractType.OpenDoor:
+			case InteractType.CloseDoor:
+				if (this is Door door)
 				{
-					Debug.Log("문 닫힘");
-					Door door = GetComponent<Door>();
-					if (door != null)
-					{
+					if (door.DoorState == InteractType.CloseDoor)
+						door.DoorState = InteractType.OpenDoor;
+					else if (door.DoorState == InteractType.OpenDoor)
 						door.DoorState = InteractType.CloseDoor;
-					}
 				}
 				break;
 
-			case InteractType.CloseDoor:
-				{
-					Debug.Log("문 열림");
-					Door door = GetComponent<Door>();
-					if (door != null)
-					{
-						door.DoorState = InteractType.OpenDoor;
-					}
-				}
-				break;
 			default:
 				Debug.Log("상호작용할 수 없는 오브젝트");
 				break;

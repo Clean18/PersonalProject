@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
 		// 손전등 활성화 / 비활성화
 		if (Input.GetKeyDown(KeyCode.R))
-			GameEvent.OnToggle?.Invoke("Flashlight");
+			GameEvent.OnToggle?.Invoke("Flashlight", data.flashLight);
 
 		// 상호작용
 		if (Input.GetKeyDown(KeyCode.E))

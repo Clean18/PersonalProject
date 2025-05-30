@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : FieldObject
 {
-    public FieldObject fieldObject;
-
 	public Quaternion doorOpen;
 	public Quaternion doorClose;
 	public float doorSpeed = 3f;
@@ -16,25 +14,25 @@ public class Door : MonoBehaviour
 	{
 		get
 		{
-			return fieldObject.interactType;
+			return interactType;
 		}
 		set
 		{
 			if (isMoving)
 				return;
 
-			if (fieldObject.interactType == value)
+			if (interactType == value)
 				return;
 
-			fieldObject.interactType = value;
+			interactType = value;
 
-			if (fieldObject.interactType == InteractType.OpenDoor)
+			if (interactType == InteractType.OpenDoor)
 			{
-				GameEvent.OnInteract?.Invoke("OpenDoor");
+				GameEvent.OnInteract?.Invoke("OpenDoor", this);
 			}
-			else if (fieldObject.interactType == InteractType.CloseDoor)
+			else if (interactType == InteractType.CloseDoor)
 			{
-				GameEvent.OnInteract?.Invoke("CloseDoor");
+				GameEvent.OnInteract?.Invoke("CloseDoor", this);
 			}
 		}
 	}
@@ -42,8 +40,7 @@ public class Door : MonoBehaviour
 	void Start()
 	{
 		// 맨 처음은 닫힌 상태
-		fieldObject = GetComponent<FieldObject>();
-		fieldObject.interactType = InteractType.CloseDoor;
+		interactType = InteractType.CloseDoor;
 
 		doorOpen = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y , transform.localEulerAngles.z + openAngle);
 		doorClose = Quaternion.Euler(transform.localEulerAngles);
@@ -59,10 +56,14 @@ public class Door : MonoBehaviour
 		GameEvent.OnInteract -= DoorEventHandler;
 	}
 
-	public void DoorEventHandler(string action)
+	public void DoorEventHandler(string action, FieldObject sender)
 	{
+		if (sender != this)
+			return;
+
 		if (isMoving)
 			return;
+
 
 		if (action == "OpenDoor")
 		{

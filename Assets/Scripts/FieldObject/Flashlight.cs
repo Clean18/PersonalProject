@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Flashlight : MonoBehaviour
+public class Flashlight : FieldObject
 {
     public Light flashlight;
 	public Transform cameraTransform;
 	public TMP_Text gameInfoText;
 
 	static bool isPickup;
-	public static bool IsPickUp
+	public bool IsPickUp
 	{
 		get => isPickup;
 		set
 		{
 			isPickup = value;
-			GameEvent.OnPickup?.Invoke("Flashlight");
+			GameEvent.OnPickup?.Invoke("Flashlight", this);
 		}
 	}
 
@@ -50,8 +50,11 @@ public class Flashlight : MonoBehaviour
 		GameEvent.OnToggle -= HandleToggle;
 	}
 
-	void HandleToggle(string key)
+	void HandleToggle(string key, FieldObject sender)
 	{
+		if (sender != this)
+			return;
+
 		if (key != "Flashlight")
 			return;
 
@@ -61,8 +64,11 @@ public class Flashlight : MonoBehaviour
 		flashlight.enabled = !flashlight.enabled;
 	}
 
-	void HandlePickup(string key)
+	void HandlePickup(string key, FieldObject sender)
 	{
+		if (sender != this)
+			return;
+
 		if (key != "Flashlight")
 			return;
 
@@ -76,5 +82,6 @@ public class Flashlight : MonoBehaviour
 		IsPickUp = true;
 		gameObject.SetActive(true);
 		flashlight.enabled = false;
+		Debug.Log("손전등 획득");
 	}
 }
