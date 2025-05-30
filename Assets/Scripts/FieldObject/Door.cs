@@ -9,31 +9,17 @@ public class Door : FieldObject
 	public float doorSpeed = 3f;
 	public float openAngle = 90;
 	public bool isMoving = false;
-	
+
 	public InteractType DoorState
 	{
-		get
-		{
-			return interactType;
-		}
+		get { return interactType; }
 		set
 		{
-			if (isMoving)
-				return;
-
-			if (interactType == value)
+			if (isMoving || interactType == value)
 				return;
 
 			interactType = value;
-
-			if (interactType == InteractType.OpenDoor)
-			{
-				GameEvent.OnInteract?.Invoke("OpenDoor", this);
-			}
-			else if (interactType == InteractType.CloseDoor)
-			{
-				GameEvent.OnInteract?.Invoke("CloseDoor", this);
-			}
+			GameEvent.OnInteract?.Invoke(value.ToString(), this);
 		}
 	}
 
@@ -58,12 +44,8 @@ public class Door : FieldObject
 
 	public void DoorEventHandler(string action, FieldObject sender)
 	{
-		if (sender != this)
+		if (sender != this || isMoving)
 			return;
-
-		if (isMoving)
-			return;
-
 
 		if (action == "OpenDoor")
 		{

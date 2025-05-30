@@ -1254,6 +1254,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_SpotAngle
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_InnerSpotAngle
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8000229784507460926, guid: ccb8d8bc1f14893458ea2e2049e742a4,
         type: 3}
       propertyPath: m_Name

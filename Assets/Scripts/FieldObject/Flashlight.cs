@@ -5,7 +5,7 @@ using TMPro;
 
 public class Flashlight : FieldObject
 {
-    public Light flashlight;
+	public Light flashlight;
 	public Transform cameraTransform;
 	public TMP_Text gameInfoText;
 

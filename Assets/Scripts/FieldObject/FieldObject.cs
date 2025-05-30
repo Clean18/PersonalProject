@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum InteractType
 {
-	None, TV, Flashlight, Book, OpenDoor, CloseDoor
+	None, Flashlight, Book, OpenDoor, CloseDoor, Mirror
 }
 
 public class FieldObject : MonoBehaviour, IInteractable

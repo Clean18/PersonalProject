@@ -49,7 +49,6 @@ MonoBehaviour:
   interactType: 5
   textTransform: {fileID: 0}
   itemText: {fileID: 0}
-  fieldObject: {fileID: 0}
   doorOpen: {x: 0, y: 0, z: 0, w: 0}
   doorClose: {x: 0, y: 0, z: 0, w: 1}
   doorSpeed: 5
