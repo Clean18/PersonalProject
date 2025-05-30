@@ -9,14 +9,14 @@ public class Flashlight : MonoBehaviour
 	public Transform cameraTransform;
 	public TMP_Text gameInfoText;
 
-	public static bool isPickup;
+	static bool isPickup;
 	public static bool IsPickUp
 	{
 		get => isPickup;
 		set
 		{
 			isPickup = value;
-			ItemEvent.OnPickup?.Invoke("Flashlight");
+			GameEvent.OnPickup?.Invoke("Flashlight");
 		}
 	}
 
@@ -24,8 +24,6 @@ public class Flashlight : MonoBehaviour
 	{
 		flashlight = GetComponentInChildren<Light>();
 		cameraTransform = Camera.main.transform;
-
-		ItemEvent.OnPickup += HandlePickup;
 	}
 
 	void Update()
@@ -42,12 +40,14 @@ public class Flashlight : MonoBehaviour
 		// 빛 끄기
 		flashlight.enabled = false;
 
-		ItemEvent.OnToggle += HandleToggle;
+		GameEvent.OnPickup += HandlePickup;
+		GameEvent.OnToggle += HandleToggle;
 	}
 
 	void OnDisable()
 	{
-		ItemEvent.OnToggle -= HandleToggle;
+		GameEvent.OnPickup -= HandlePickup;
+		GameEvent.OnToggle -= HandleToggle;
 	}
 
 	void HandleToggle(string key)

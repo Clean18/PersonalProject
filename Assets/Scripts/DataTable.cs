@@ -12,6 +12,8 @@ public static class DataTable
 	{
 		[InteractType.Flashlight] = "E : 손전등 줍기",
 		[InteractType.Book] = "E : 책 읽기",
+		[InteractType.OpenDoor] = "E : 문 닫기",
+		[InteractType.CloseDoor] = "E : 문 열기",
 	};
 
 	public static Dictionary<bool, string> CachingFlashlightText = new()

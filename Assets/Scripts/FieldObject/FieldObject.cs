@@ -6,7 +6,7 @@ using UnityEditor.UI;
 
 public enum InteractType
 {
-	None, TV, Flashlight, Book, 
+	None, TV, Flashlight, Book, OpenDoor, CloseDoor
 }
 
 public class FieldObject : MonoBehaviour, IInteractable
@@ -19,13 +19,22 @@ public class FieldObject : MonoBehaviour, IInteractable
 	{
 		DataTable.CachingFieldObject.Add(transform, this);
 
-		itemText.text = DataTable.CachingString[interactType];
-		textTransform.gameObject.SetActive(false);
+		if (itemText != null)
+			itemText.text = DataTable.CachingString[interactType];
+
+		if (textTransform != null)
+			textTransform?.gameObject.SetActive(false);
+	}
+
+	void OnEnable()
+	{
+		if (itemText != null)
+			itemText.text = DataTable.CachingString[interactType];
 	}
 
 	void Update()
 	{
-		if (textTransform.gameObject.activeSelf)
+		if (textTransform != null && textTransform.gameObject.activeSelf)
 		{
 			textTransform.rotation = Camera.main.transform.rotation;
 		}
@@ -45,7 +54,6 @@ public class FieldObject : MonoBehaviour, IInteractable
 		switch (interactType)
 		{
 			case InteractType.Flashlight:
-
 				Debug.Log("손전등 획득");
 				// 플레이어 손전등 활성화
 				data.flashLight.SetPickup();
@@ -55,6 +63,27 @@ public class FieldObject : MonoBehaviour, IInteractable
 				Destroy(gameObject);
 				break;
 
+			case InteractType.OpenDoor:
+				{
+					Debug.Log("문 닫힘");
+					Door door = GetComponent<Door>();
+					if (door != null)
+					{
+						door.DoorState = InteractType.CloseDoor;
+					}
+				}
+				break;
+
+			case InteractType.CloseDoor:
+				{
+					Debug.Log("문 열림");
+					Door door = GetComponent<Door>();
+					if (door != null)
+					{
+						door.DoorState = InteractType.OpenDoor;
+					}
+				}
+				break;
 			default:
 				Debug.Log("상호작용할 수 없는 오브젝트");
 				break;

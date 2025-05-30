@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
 	void Start()
 	{
 		SetMouseHold();
+
+		// 플레이어 카메라 정면 바라보기
+		data.cameraTransform.rotation = Quaternion.Euler(0, 0, 0);
 	}
 
 	void Update()
@@ -26,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
 		// 손전등 활성화 / 비활성화
 		if (Input.GetKeyDown(KeyCode.R))
-			ItemEvent.OnToggle?.Invoke("Flashlight");
+			GameEvent.OnToggle?.Invoke("Flashlight");
 
 		// 상호작용
 		if (Input.GetKeyDown(KeyCode.E))
