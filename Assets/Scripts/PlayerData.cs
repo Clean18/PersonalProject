@@ -31,9 +31,4 @@ public class PlayerData : MonoBehaviour
 	{
 		flashLight.gameObject.SetActive(false);
 	}
-
-	void OnEnable()
-	{
-		DataTable.PlayerData = this;
-	}
 }

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public static class DataTable
 {
-	// 플레이어 Data
-	public static PlayerData PlayerData;
-
 	// Update에서 GetComponent를 대신할 딕셔너리
 	public static Dictionary<Transform, FieldObject> CachingFieldObject = new();
 
