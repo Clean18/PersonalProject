@@ -9,6 +9,8 @@ public class Door : FieldObject
 	public float doorSpeed = 3f;
 	public float openAngle = 90;
 	public bool isMoving = false;
+	Collider coll;
+	Collider doorColl;
 
 	public InteractType DoorState
 	{
@@ -26,6 +28,9 @@ public class Door : FieldObject
 	protected override void Start()
 	{
 		base.Start();
+
+		coll = GetComponent<Collider>();
+		doorColl = transform.GetChild(0).GetComponent<Collider>();
 
 		// 맨 처음은 닫힌 상태
 		interactType = InteractType.CloseDoor;
@@ -52,11 +57,15 @@ public class Door : FieldObject
 		if (action == "OpenDoor")
 		{
 			// 문열림
+			coll.isTrigger = true;
+			doorColl.enabled = false;
 			StartCoroutine(DoorMove(doorOpen));
 		}
 		else if (action == "CloseDoor")
 		{
 			// 문 닫힘
+			coll.isTrigger = false;
+			doorColl.enabled = true;
 			StartCoroutine(DoorMove(doorClose));
 		}
 	}
