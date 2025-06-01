@@ -23,8 +23,10 @@ public class Door : FieldObject
 		}
 	}
 
-	void Start()
+	protected override void Start()
 	{
+		base.Start();
+
 		// 맨 처음은 닫힌 상태
 		interactType = InteractType.CloseDoor;
 

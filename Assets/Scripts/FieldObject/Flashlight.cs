@@ -26,6 +26,11 @@ public class Flashlight : FieldObject
 		cameraTransform = Camera.main.transform;
 	}
 
+	protected override void Start()
+	{
+		base.Start();
+	}
+
 	void Update()
 	{
 		if (!IsPickUp || !flashlight.enabled)

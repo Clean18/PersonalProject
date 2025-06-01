@@ -90,10 +90,6 @@ public class PlayerController : MonoBehaviour
 		// 바닥의 경사에 따라 이동벡터 보정
 		Vector3 fixedDir = IsSlope(out RaycastHit hit) ? Vector3.ProjectOnPlane(moveDir, hit.normal).normalized : moveDir;
 
-		// moveposition
-		//Vector3 moveDelta = fixedDir * data.moveSpeed * Time.fixedDeltaTime;
-		//data.rigid.MovePosition(data.rigid.position + moveDelta);
-
 		// velocity
 		Vector3 velocity = fixedDir * data.moveSpeed;
 		velocity.y = data.rigid.velocity.y;
@@ -146,8 +142,8 @@ public class PlayerController : MonoBehaviour
 		RaycastHit[] hits = Physics.RaycastAll(ray, data.interactRayDistance);
 		foreach (RaycastHit hit in hits)
 		{
-			IInteractable obj = hit.collider.GetComponent<IInteractable>();
-			obj?.Use(data);
+			if (DataTable.CachingFieldObject.TryGetValue(hit.transform, out FieldObject obj))
+				obj.Use(data);
 		}
 	}
 

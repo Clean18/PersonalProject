@@ -10,12 +10,20 @@ public class Mirror : MonoBehaviour
 	public Transform playerTransform;
 	public Transform mirrorTransform;
 	public Camera mirrorCamera;
+	public Light mirrorLight;
 
 	void Start()
 	{
 		playerTransform = Camera.main.transform;
+		mirrorLight.enabled = false;
+	}
 
+	void Update()
+	{
+		if (mirrorLight == null || DataTable.PlayerData == null)
+			return;
 
+		mirrorLight.enabled = DataTable.PlayerData.flashLight.flashlight.enabled;
 	}
 
 	void LateUpdate()

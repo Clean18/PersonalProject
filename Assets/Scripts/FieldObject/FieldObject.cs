@@ -12,8 +12,10 @@ public class FieldObject : MonoBehaviour, IInteractable
 	public Transform textTransform;
 	public TMP_Text itemText;
 
-	void Start()
+	protected virtual void Start()
 	{
+		// key : Transform
+		// value : FiendObject
 		DataTable.CachingFieldObject.Add(transform, this);
 
 		if (itemText != null)

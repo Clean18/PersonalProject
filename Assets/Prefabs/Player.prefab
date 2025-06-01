@@ -209,7 +209,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 179
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 8044886780150618362}
   - component: {fileID: 2990525481361050741}
   - component: {fileID: 6538938708311408988}
+  - component: {fileID: 347942988612719729}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -340,7 +341,6 @@ MonoBehaviour:
   rigid: {fileID: 8044886780150618362}
   anim: {fileID: 6538938708311408988}
   flashLight: {fileID: 8887631812600108857}
-  flashlightTransform: {fileID: 7948179071995628907}
   moveSpeed: 3
   mouseSensitivity: 70
   canMove: 1
@@ -399,10 +399,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 1.8
+  m_Radius: 0.15224205
+  m_Height: 1.7999997
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: -0.0028092545, y: 0.89999986, z: 0}
 --- !u!95 &6538938708311408988
 Animator:
   serializedVersion: 5
@@ -424,6 +424,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &347942988612719729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6091485208868881550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf443ee3fe9df4240851d4e66c854572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  darkSkybox: {fileID: 2100000, guid: 97637a2a763b7f24b8da4e139e4144ca, type: 2}
+  lightSkybox: {fileID: 2100000, guid: 1cf32c17fea93ef4fb120e8e0cdfbef1, type: 2}
 --- !u!1 &8782114362545313309
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,6 +1223,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 832770840637229106, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1565883230862804436, guid: ccb8d8bc1f14893458ea2e2049e742a4,
         type: 3}
       propertyPath: flashlight
@@ -1256,18 +1275,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
         type: 3}
+      propertyPath: m_Range
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
       propertyPath: m_Intensity
-      value: 25
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
         type: 3}
       propertyPath: m_SpotAngle
-      value: 100
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_Lightmapping
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
         type: 3}
       propertyPath: m_InnerSpotAngle
-      value: 100
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_UseColorTemperature
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8000229784507460926, guid: ccb8d8bc1f14893458ea2e2049e742a4,
         type: 3}
