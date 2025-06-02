@@ -9,22 +9,30 @@ public class SkyboxChanger : MonoBehaviour
 
 	void Start()
 	{
-		SetDarkSkybox();
+		//SetDarkSkybox();	// 어둡게
+		SetLightSkybox();	// 밝게
 	}
 
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.U))
 		{
+			Debug.Log("상태 변경");
 			if (RenderSettings.skybox == darkSkybox)
+			{
 				SetLightSkybox();
+			}
 			else
+			{
 				SetDarkSkybox();
+			}
 		}
 	}
 
 	public void SetDarkSkybox()
 	{
+		DataTable.OffLights();
+
 		RenderSettings.skybox = darkSkybox;
 		RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
 		RenderSettings.ambientIntensity = 0f;
@@ -35,6 +43,8 @@ public class SkyboxChanger : MonoBehaviour
 
 	public void SetLightSkybox()
 	{
+		DataTable.OnLights();
+
 		RenderSettings.skybox = lightSkybox;
 		RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
 		RenderSettings.ambientIntensity = 1f; // 필요에 따라 조절

@@ -29,6 +29,7 @@ public class Flashlight : FieldObject
 	protected override void Start()
 	{
 		base.Start();
+		interactType = InteractType.Flashlight;
 	}
 
 	void Update()
@@ -57,13 +58,7 @@ public class Flashlight : FieldObject
 
 	void HandleToggle(string key, FieldObject sender)
 	{
-		if (sender != this)
-			return;
-
-		if (key != "Flashlight")
-			return;
-
-		if (!IsPickUp)
+		if (sender != this || key != "Flashlight" || !IsPickUp)
 			return;
 
 		flashlight.enabled = !flashlight.enabled;
@@ -71,10 +66,7 @@ public class Flashlight : FieldObject
 
 	void HandlePickup(string key, FieldObject sender)
 	{
-		if (sender != this)
-			return;
-
-		if (key != "Flashlight")
+		if (sender != this || key != "Flashlight")
 			return;
 
 		// 필드 손전등은 참조안되어있음

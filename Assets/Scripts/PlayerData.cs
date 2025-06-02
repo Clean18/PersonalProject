@@ -7,6 +7,7 @@ public class PlayerData : MonoBehaviour
 	public Rigidbody rigid;
 	public Animator anim;
 
+	// 손전등
 	public Flashlight flashLight;
 
 	[SerializeField] public float moveSpeed;

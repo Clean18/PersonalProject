@@ -8,4 +8,7 @@ public static class GameEvent
     public static Action<string, FieldObject> OnToggle;
     public static Action<string, FieldObject> OnPickup;
     public static Action<string, FieldObject> OnInteract;
+
+    public static Action OnLightOn;
+    public static Action OnLightOff;
 }

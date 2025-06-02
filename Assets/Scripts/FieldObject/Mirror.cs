@@ -11,6 +11,7 @@ public class Mirror : MonoBehaviour
 	public Transform mirrorTransform;
 	public Camera mirrorCamera;
 	public Light mirrorLight;
+	public float rayDistance;
 
 	void Start()
 	{
@@ -23,7 +24,36 @@ public class Mirror : MonoBehaviour
 		if (mirrorLight == null || DataTable.PlayerData == null)
 			return;
 
-		mirrorLight.enabled = DataTable.PlayerData.flashLight.flashlight.enabled;
+		// 플레이어가 거울 앞이고 거울을 바라보고 있을 때 카메라 라이트 활성화
+		var playerLight = DataTable.PlayerData.flashLight;
+		var light = DataTable.PlayerData.flashLight.flashlight;
+		bool flashOn = light.enabled;
+
+		Vector3 lightDir = light.transform.forward;
+		Vector3 toMirror = mirrorTransform.position - playerLight.transform.position;
+
+		// Ray
+		Vector3 rayOrigin = transform.position + toMirror.normalized * -0.5f;
+		//Debug.DrawRay(rayOrigin, toMirror.normalized * -rayDistance, Color.red, 1f);
+		if (Physics.Raycast(rayOrigin, toMirror.normalized * -1, out RaycastHit hit, rayDistance))
+		{
+			if (!hit.collider.CompareTag("Player"))
+			{
+				return;
+			}
+		}
+
+		float dist = toMirror.magnitude;
+		float angle = Vector3.Angle(lightDir, toMirror.normalized);
+
+		// 손전등 Outer Spot Angle의 절반 기준
+		float maxAngle = light.spotAngle * 0.5f;
+		float maxDist = rayDistance;
+
+		bool inRange = dist < maxDist;
+		bool facing = angle < maxAngle;
+
+		mirrorLight.enabled = flashOn && inRange && facing;
 	}
 
 	void LateUpdate()
