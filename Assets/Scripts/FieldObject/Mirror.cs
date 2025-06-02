@@ -12,6 +12,7 @@ public class Mirror : MonoBehaviour
 	public Camera mirrorCamera;
 	public Light mirrorLight;
 	public float rayDistance;
+	public float maxAngleValue; // 0.2f
 
 	void Start()
 	{
@@ -34,7 +35,7 @@ public class Mirror : MonoBehaviour
 
 		// Ray
 		Vector3 rayOrigin = transform.position + toMirror.normalized * -0.5f;
-		//Debug.DrawRay(rayOrigin, toMirror.normalized * -rayDistance, Color.red, 1f);
+		Debug.DrawRay(rayOrigin, toMirror.normalized * -rayDistance, Color.red, 1f);
 		if (Physics.Raycast(rayOrigin, toMirror.normalized * -1, out RaycastHit hit, rayDistance))
 		{
 			if (!hit.collider.CompareTag("Player"))
@@ -47,7 +48,7 @@ public class Mirror : MonoBehaviour
 		float angle = Vector3.Angle(lightDir, toMirror.normalized);
 
 		// 손전등 Outer Spot Angle의 절반 기준
-		float maxAngle = light.spotAngle * 0.5f;
+		float maxAngle = light.spotAngle * maxAngleValue;
 		float maxDist = rayDistance;
 
 		bool inRange = dist < maxDist;

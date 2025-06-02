@@ -387,7 +387,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6091485208868881550}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ded4459b8185d5045886275add95b0b1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -699,6 +699,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -8036378127726481823, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: -7932361021203114666, guid: c2baf06f683476241a0533519d618996,
         type: 3}
       propertyPath: m_Layer
@@ -753,6 +758,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -6510356753595264145, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: -6244031040125776530, guid: c2baf06f683476241a0533519d618996,
         type: 3}
@@ -844,6 +854,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -2294103237927563900, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: -1662985346021062190, guid: c2baf06f683476241a0533519d618996,
         type: 3}
       propertyPath: m_Layer
@@ -924,6 +939,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 856721977179390436, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c2baf06f683476241a0533519d618996,
         type: 3}
       propertyPath: m_Name
@@ -933,6 +953,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1373074475419427701, guid: c2baf06f683476241a0533519d618996,
         type: 3}
@@ -1004,6 +1029,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3267151512053241269, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 3326213502268688295, guid: c2baf06f683476241a0533519d618996,
         type: 3}
       propertyPath: m_Layer
@@ -1013,6 +1043,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3378267475874385939, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3409852475704883760, guid: c2baf06f683476241a0533519d618996,
         type: 3}
@@ -1059,6 +1094,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4644356235003748977, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4667187126089269566, guid: c2baf06f683476241a0533519d618996,
         type: 3}
       propertyPath: m_Layer
@@ -1089,6 +1129,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5620899931660819137, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6240431318503031700, guid: c2baf06f683476241a0533519d618996,
         type: 3}
       propertyPath: m_Layer
@@ -1104,6 +1149,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6398099075197830734, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6551636095206349075, guid: c2baf06f683476241a0533519d618996,
         type: 3}
       propertyPath: m_Layer
@@ -1113,6 +1163,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7083585847371359797, guid: c2baf06f683476241a0533519d618996,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7179952766287911660, guid: c2baf06f683476241a0533519d618996,
         type: 3}
@@ -1272,6 +1327,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764731393793826102, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764731393793826102, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764731393793826102, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764731393793826102, guid: ccb8d8bc1f14893458ea2e2049e742a4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7283253102462269628, guid: ccb8d8bc1f14893458ea2e2049e742a4,
         type: 3}
