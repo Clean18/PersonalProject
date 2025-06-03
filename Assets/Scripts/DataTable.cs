@@ -38,13 +38,6 @@ public static class DataTable
 		[InteractType.CloseDoor] = "E : 문 열기",
 	};
 
-	// 손전등 획득 유무에 따라 메뉴 텍스트 변경
-	public static Dictionary<bool, string> CachingFlashlightText = new()
-	{
-		[true] = "ESC : 메뉴\nE : 사용\nR : 손전등 ON/OFF",
-		[false] = "ESC : 메뉴\nE : 사용\n "
-	};
-
 	// 빛 오브젝트 딕셔너리
 	public static Dictionary<Transform, LightController> CachingLight = new();
 	

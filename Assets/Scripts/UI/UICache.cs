@@ -6,6 +6,6 @@ public class UICache : MonoBehaviour
 {
 	void Start()
 	{
-		UITitle.UICaching.TryAdd(gameObject.name, gameObject);
+		//UITitle.UICaching.TryAdd(gameObject.name, gameObject);
 	}
 }

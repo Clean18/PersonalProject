@@ -7,7 +7,6 @@ public class Flashlight : FieldObject
 {
 	public Light flashlight;
 	public Transform cameraTransform;
-	public TMP_Text gameInfoText;
 
 	static bool isPickup;
 	public bool IsPickUp
@@ -69,9 +68,7 @@ public class Flashlight : FieldObject
 		if (sender != this || key != "Flashlight")
 			return;
 
-		// 필드 손전등은 참조안되어있음
-		if (gameInfoText != null)
-			gameInfoText.text = DataTable.CachingFlashlightText[isPickup];
+		// TODO : 손전등 획득 ui 띄워야할듯
 	}
 
 	public void SetPickup()

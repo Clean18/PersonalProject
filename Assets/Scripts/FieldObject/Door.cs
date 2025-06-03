@@ -12,6 +12,8 @@ public class Door : FieldObject
 	Collider coll;
 	Collider doorColl;
 
+	public bool isLock;
+
 	public InteractType DoorState
 	{
 		get { return interactType; }
@@ -53,6 +55,12 @@ public class Door : FieldObject
 	{
 		if (sender != this || isMoving)
 			return;
+
+		if (isLock)
+		{
+			Debug.Log("못여는 문");
+			return;
+		}
 
 		if (action == "OpenDoor")
 		{

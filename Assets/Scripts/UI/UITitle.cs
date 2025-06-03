@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class UITitle : MonoBehaviour
 {
 	// UI 오브젝트 미리 캐싱
-	public static Dictionary<string, GameObject> UICaching = new();
+	//public static Dictionary<string, GameObject> UICaching = new();
 
 	// Camera
 	public CinemachineBrain brain;
@@ -56,10 +56,10 @@ public class UITitle : MonoBehaviour
 
 		// 초기값 세팅
 		OnSoundSliderEvent(0.5f);
-		soundSlider.value = 0.5f;
+		//soundSlider.value = 0.5f;
 
 		OnSensitivitySliderEvent(0.5f);
-		sensitivitySlider.value = 0.5f;
+		//sensitivitySlider.value = 0.5f;
 	}
 
 	public void OnStart()
@@ -111,7 +111,8 @@ public class UITitle : MonoBehaviour
 	{
 		float Value = value * 100;
 		soundValueText.text = $"{(int)Value}";
-		DataTable.SoundValue = Value;
+		DataTable.SoundValue = value;
+		soundSlider.value = value;
 	}
 
 	public void OnSensitivitySliderEvent(float value)
@@ -119,6 +120,7 @@ public class UITitle : MonoBehaviour
 		float Value = value * 100;
 		sensitivityValueText.text = $"{(int)Value}";
 		DataTable.Sensitivity = Value;
+		sensitivitySlider.value = value;
 	}
 
 	public void OnSettingsCloseEvent()

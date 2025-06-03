@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
 	{
-		SetMouseHold();
-
 		// 플레이어 카메라 정면 바라보기
 		data.cameraTransform.rotation = Quaternion.Euler(0, 0, 0);
 	}
@@ -22,11 +20,6 @@ public class PlayerController : MonoBehaviour
 		// 에임 위치에 레이로 아이템 이름 표시
 		ShowItemName();
 
-		// 마우스 커서 활성화 / 비활성화
-		// ESC면 false, 클릭이면 true
-		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Mouse0))
-			SetMouseHold(Input.GetKeyDown(KeyCode.Mouse0));
-
 		// 손전등 활성화 / 비활성화
 		if (Input.GetKeyDown(KeyCode.R))
 			GameEvent.OnToggle?.Invoke("Flashlight", data.flashLight);
@@ -34,8 +27,6 @@ public class PlayerController : MonoBehaviour
 		// 상호작용
 		if (Input.GetKeyDown(KeyCode.E))
 			Interact();
-
-
 	}
 
 	void FixedUpdate()
@@ -62,7 +53,7 @@ public class PlayerController : MonoBehaviour
 	{
 		float mouseX = 0;
 		float mouseY = 0;
-		if (data.mouseHold)
+		if (Cursor.lockState == CursorLockMode.Locked)
 		{
 			mouseX = Input.GetAxis("Mouse X") * data.mouseSensitivity * Time.deltaTime;
 			mouseY = Input.GetAxis("Mouse Y") * data.mouseSensitivity * Time.deltaTime;
@@ -114,25 +105,12 @@ public class PlayerController : MonoBehaviour
 	{
 		float x = 0;
 		float z = 0;
-		if (data.mouseHold)
+		if (Cursor.lockState == CursorLockMode.Locked)
 		{
 			x = Input.GetAxis("Horizontal");
 			z = Input.GetAxis("Vertical");
 		}
 		return new Vector3(x, 0, z).normalized;
-	}
-
-	public void SetMouseHold()
-	{
-		SetMouseHold(!data.mouseHold);
-	}
-
-	public void SetMouseHold(bool enable)
-	{
-		data.mouseHold = enable;
-
-		Cursor.lockState = data.mouseHold == true ? CursorLockMode.Locked : CursorLockMode.None;
-		Cursor.visible = !data.mouseHold;
 	}
 
 	public void Interact()

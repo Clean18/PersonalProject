@@ -14,7 +14,6 @@ public class PlayerData : MonoBehaviour
 	[SerializeField] public float mouseSensitivity;
 	[SerializeField] public bool canMove = true;
 	[SerializeField] public Transform cameraTransform;
-	[SerializeField] public bool mouseHold = true;
 	[SerializeField] public Vector2 mouseDir;
 	[SerializeField] public float rotationX = 0f;
 	[SerializeField] public LayerMask groundLayer;
@@ -27,13 +26,16 @@ public class PlayerData : MonoBehaviour
 		anim = GetComponent<Animator>();
 
 		DataTable.PlayerData = this;
+
 		mouseSensitivity = DataTable.Sensitivity;
+		// TODO : 임시코드
+		DataTable.Sensitivity = 50f;
 	}
 
 	void Start()
 	{
 		// TODO : 테스트 후 false로 바꾸기
-		flashLight.gameObject.SetActive(true);
-		flashLight.SetPickup();
+		flashLight.gameObject.SetActive(false);
+		//flashLight.SetPickup();
 	}
 }
