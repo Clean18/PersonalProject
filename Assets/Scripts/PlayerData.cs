@@ -27,6 +27,7 @@ public class PlayerData : MonoBehaviour
 		anim = GetComponent<Animator>();
 
 		DataTable.PlayerData = this;
+		mouseSensitivity = DataTable.Sensitivity;
 	}
 
 	void Start()

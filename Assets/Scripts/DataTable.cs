@@ -5,6 +5,24 @@ using UnityEngine;
 
 public static class DataTable
 {
+	static float soundValue;
+	public static float SoundValue { get { return soundValue; } set { soundValue = value; } }
+
+	static float sensitivity;
+	public static float Sensitivity
+	{
+		get
+		{
+			return sensitivity;
+		}
+		set
+		{
+			sensitivity = value;
+			if (PlayerData != null)
+				PlayerData.mouseSensitivity = value;
+		}
+	}
+
 	// 플레이어
 	public static PlayerData PlayerData;
 
@@ -30,6 +48,8 @@ public static class DataTable
 	// 빛 오브젝트 딕셔너리
 	public static Dictionary<Transform, LightController> CachingLight = new();
 	
+	////////////////////////////////////////////////////////////////////////////////
+
 	public static void OnLights()
 	{
 		foreach (var light in CachingLight)
@@ -47,4 +67,5 @@ public static class DataTable
 		GameEvent.OnLightOff?.Invoke();
 	}
 
+	
 }

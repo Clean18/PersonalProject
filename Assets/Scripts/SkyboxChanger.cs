@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ public class SkyboxChanger : MonoBehaviour
 		RenderSettings.ambientIntensity = 0f;
 		RenderSettings.reflectionIntensity = 0f;
 		RenderSettings.subtractiveShadowColor = Color.black;
-		//DynamicGI.UpdateEnvironment();
+		DynamicGI.UpdateEnvironment();
 	}
 
 	public void SetLightSkybox()
@@ -48,6 +49,6 @@ public class SkyboxChanger : MonoBehaviour
 		RenderSettings.ambientIntensity = 1f; // 필요에 따라 조절
 		RenderSettings.reflectionIntensity = 1f;
 		RenderSettings.subtractiveShadowColor = Color.gray; // 밝은 그림자 느낌
-		//DynamicGI.UpdateEnvironment();
+		DynamicGI.UpdateEnvironment();
 	}
 }
