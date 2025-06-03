@@ -28,9 +28,12 @@ public class UITitle : MonoBehaviour
 	// 세팅 UI
 	public GameObject settings;
 
-	// 사운드
-	public Slider soundSlider;
-	public TMP_Text soundValueText;
+	// SFX
+	public Slider sfxSlider;
+	public TMP_Text sfxValueText;
+	// VFX
+	public Slider vfxSlider;
+	public TMP_Text vfxValueText;
 	// 마우스 민감도
 	public Slider sensitivitySlider;
 	public TMP_Text sensitivityValueText;
@@ -50,16 +53,16 @@ public class UITitle : MonoBehaviour
 		settingsButton.onClick.AddListener(OnSettings);
 		exitButton.onClick.AddListener(OnExit);
 
-		soundSlider.onValueChanged.AddListener(OnSoundSliderEvent);
+		sfxSlider.onValueChanged.AddListener(OnSFXSliderEvent);
+		vfxSlider.onValueChanged.AddListener(OnVFXSliderEvent);
 		sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderEvent);
 		settingsCloseButton.onClick.AddListener(OnSettingsCloseEvent);
 
 		// 초기값 세팅
-		OnSoundSliderEvent(0.5f);
-		//soundSlider.value = 0.5f;
+		OnSFXSliderEvent(0.5f);
+		OnVFXSliderEvent(0.5f);
 
 		OnSensitivitySliderEvent(0.5f);
-		//sensitivitySlider.value = 0.5f;
 	}
 
 	public void OnStart()
@@ -107,12 +110,20 @@ public class UITitle : MonoBehaviour
 #endif
 	}
 
-	public void OnSoundSliderEvent(float value)
+	public void OnSFXSliderEvent(float value)
 	{
 		float Value = value * 100;
-		soundValueText.text = $"{(int)Value}";
-		DataTable.SoundValue = value;
-		soundSlider.value = value;
+		sfxValueText.text = $"{(int)Value}";
+		DataTable.SFXValue = value;
+		sfxSlider.value = value;
+	}
+
+	public void OnVFXSliderEvent(float value)
+	{
+		float Value = value * 100;
+		vfxValueText.text = $"{(int)Value}";
+		DataTable.VFXValue = value;
+		vfxSlider.value = value;
 	}
 
 	public void OnSensitivitySliderEvent(float value)

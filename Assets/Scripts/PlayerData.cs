@@ -20,6 +20,10 @@ public class PlayerData : MonoBehaviour
 	[SerializeField] public float interactRayDistance;
 	[SerializeField] public FieldObject textTarget;
 
+	[SerializeField] public AudioClip walkSound;
+	[SerializeField] public AudioClip breathSound;
+
+
 	void Awake()
 	{
 		rigid = GetComponent<Rigidbody>();

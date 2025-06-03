@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 
 public enum InteractType
@@ -31,20 +32,13 @@ public class FieldObject : MonoBehaviour, IInteractable
 			itemText.text = DataTable.CachingString[interactType];
 	}
 
-	void Update()
-	{
-		if (textTransform != null && textTransform.gameObject.activeSelf)
-		{
-			textTransform.rotation = Camera.main.transform.rotation;
-		}
-	}
-
 	public void SetText(bool enable)
 	{
 		// Destroy 예외처리
 		if (textTransform == null || textTransform.gameObject == null)
 			return;
 
+		Debug.Log($"필드 오브젝트 텍스트 {(enable == true ? "활성화" : "비활성화")}");
 		textTransform.gameObject.SetActive(enable);
 	}
 

@@ -5,8 +5,11 @@ using UnityEngine;
 
 public static class DataTable
 {
-	static float soundValue;
-	public static float SoundValue { get { return soundValue; } set { soundValue = value; } }
+	static float sfxValue;
+	public static float SFXValue { get { return sfxValue; } set { sfxValue = value; } }
+
+	static float vfxValue;
+	public static float VFXValue { get { return vfxValue; } set { vfxValue = value; } }
 
 	static float sensitivity;
 	public static float Sensitivity

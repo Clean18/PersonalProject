@@ -9,9 +9,12 @@ public class UIGame : MonoBehaviour
 	// 세팅 UI
 	public GameObject settings;
 
-	// 사운드
-	public Slider soundSlider;
-	public TMP_Text soundValueText;
+	// SFX
+	public Slider sfxSlider;
+	public TMP_Text sfxValueText;
+	// VFX
+	public Slider vfxSlider;
+	public TMP_Text vfxValueText;
 	// 마우스 민감도
 	public Slider sensitivitySlider;
 	public TMP_Text sensitivityValueText;
@@ -20,12 +23,14 @@ public class UIGame : MonoBehaviour
 
 	void Start()
 	{
-		soundSlider.onValueChanged.AddListener(OnSoundSliderEvent);
+		sfxSlider.onValueChanged.AddListener(OnSFXSliderEvent);
+		vfxSlider.onValueChanged.AddListener(OnVFXSliderEvent);
 		sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderEvent);
 		settingsCloseButton.onClick.AddListener(OnSettingsCloseEvent);
 
 		// 초기값 세팅
-		OnSoundSliderEvent(DataTable.SoundValue);
+		OnSFXSliderEvent(DataTable.SFXValue);
+		OnVFXSliderEvent(DataTable.VFXValue);
 		OnSensitivitySliderEvent(DataTable.Sensitivity/ 100);
 
 		ToggleSettings();
@@ -43,12 +48,20 @@ public class UIGame : MonoBehaviour
 		}
 	}
 
-	public void OnSoundSliderEvent(float value)
+	public void OnSFXSliderEvent(float value)
 	{
 		float Value = value * 100;
-		soundValueText.text = $"{(int)Value}";
-		DataTable.SoundValue = value;
-		soundSlider.value = value;
+		sfxValueText.text = $"{(int)Value}";
+		DataTable.SFXValue = value;
+		sfxSlider.value = value;
+	}
+
+	public void OnVFXSliderEvent(float value)
+	{
+		float Value = value * 100;
+		vfxValueText.text = $"{(int)Value}";
+		DataTable.VFXValue = value;
+		vfxSlider.value = value;
 	}
 
 	public void OnSensitivitySliderEvent(float value)
@@ -109,7 +122,7 @@ public class UIGame : MonoBehaviour
 
 		// TODO : 티비 노이즈 지지직소리
 
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(0.1f); // 임시로 1초, 3초로 변경하기
 
 		while (time < duration)
 		{
