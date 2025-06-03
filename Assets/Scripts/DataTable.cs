@@ -12,8 +12,8 @@ public static class DataTable
 		set
 		{
 			sfxValue = value;
-			if (PlayerData != null)
-				PlayerData.sfxSource.volume = sfxValue;
+			//if (PlayerData != null)
+			//	PlayerData.sfxSource.volume = sfxValue;
 		}
 	}
 
@@ -49,32 +49,38 @@ public static class DataTable
 	public static Dictionary<InteractType, string> CachingString = new()
 	{
 		[InteractType.Flashlight] = "E : 손전등 줍기",
-		[InteractType.Book] = "E : 책 읽기",
 		[InteractType.OpenDoor] = "E : 문 닫기",
 		[InteractType.CloseDoor] = "E : 문 열기",
 	};
 
-	// 빛 오브젝트 딕셔너리
-	public static Dictionary<Transform, LightController> CachingLight = new();
 	
 	////////////////////////////////////////////////////////////////////////////////
 
-	public static void OnLights()
-	{
-		foreach (var light in CachingLight)
-		{
-			light.Value.OnLight();
-		}
-		GameEvent.OnLightOn?.Invoke();
-	}
-	public static void OffLights()
-	{
-		foreach (var light in CachingLight)
-		{
-			light.Value.OffLight();
-		}
-		GameEvent.OnLightOff?.Invoke();
-	}
+	// 빛 오브젝트 딕셔너리
+	public static Dictionary<Transform, LightController> CachingLight = new();
 
-	
+	static bool isLight;
+	public static bool IsLight
+	{
+		get { return isLight; }
+		set
+		{
+			if (isLight == value) return;
+
+			isLight = value;
+
+			foreach (var light in CachingLight.Values)
+			{
+				if (isLight)
+					light.OnLight();
+				else
+					light.OffLight();
+			}
+
+			if (isLight)
+				GameEvent.OnLightOn?.Invoke();
+			else
+				GameEvent.OnLightOff?.Invoke();
+		}
+	}
 }

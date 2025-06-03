@@ -34,7 +34,7 @@ public class Mirror : MonoBehaviour
 
 		// Ray
 		Vector3 rayOrigin = transform.position + toMirror.normalized * -0.5f;
-		Debug.DrawRay(rayOrigin, toMirror.normalized * -rayDistance, Color.red, 1f);
+		//Debug.DrawRay(rayOrigin, toMirror.normalized * -rayDistance, Color.red, 1f);
 		if (Physics.Raycast(rayOrigin, toMirror.normalized * -1, out RaycastHit hit, rayDistance))
 		{
 			if (!hit.collider.CompareTag("Player"))

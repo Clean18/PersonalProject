@@ -163,6 +163,6 @@ public class PlayerController : MonoBehaviour
 	{
 		// 애니메이션 이벤트
 		Debug.Log("발걸음 재생");
-		data.sfxSource.PlayOneShot(data.walkSound);
+		data.sfxSource.PlayOneShot(data.walkSound, DataTable.SFXValue);
 	}
 }

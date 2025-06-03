@@ -14,6 +14,12 @@ public class Door : FieldObject
 
 	public bool isLock;
 
+	public AudioSource audioSource;
+	public AudioClip openClip;
+	public AudioClip closeClip;
+	public AudioClip lockClip;
+	public AudioClip scareClip;
+
 	public InteractType DoorState
 	{
 		get { return interactType; }
@@ -33,6 +39,7 @@ public class Door : FieldObject
 
 		coll = GetComponent<Collider>();
 		doorColl = transform.GetChild(0).GetComponent<Collider>();
+		audioSource = GetComponent<AudioSource>();
 
 		// 맨 처음은 닫힌 상태
 		interactType = InteractType.CloseDoor;
@@ -59,6 +66,7 @@ public class Door : FieldObject
 		if (isLock)
 		{
 			Debug.Log("못여는 문");
+			audioSource.PlayOneShot(lockClip);
 			return;
 		}
 
@@ -68,6 +76,7 @@ public class Door : FieldObject
 			coll.isTrigger = true;
 			doorColl.enabled = false;
 			StartCoroutine(DoorMove(doorOpen));
+			audioSource.PlayOneShot(openClip);
 		}
 		else if (action == "CloseDoor")
 		{
@@ -75,6 +84,7 @@ public class Door : FieldObject
 			coll.isTrigger = false;
 			doorColl.enabled = true;
 			StartCoroutine(DoorMove(doorClose));
+			audioSource.PlayOneShot(closeClip);
 		}
 	}
 

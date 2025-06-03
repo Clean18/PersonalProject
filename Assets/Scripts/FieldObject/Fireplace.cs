@@ -28,9 +28,16 @@ public class Fireplace : MonoBehaviour
 	public float delay = 0.3f;		// 변화 간격
 	public float lerpSpeed = 3f;    // 서서히 변하는 속도
 
+	public AudioSource audioSource;
+	public AudioClip fireClip;
 
 	void Start()
 	{
+		audioSource = GetComponent<AudioSource>();
+		audioSource.clip = fireClip;
+		audioSource.loop = true;
+		audioSource.Play();
+
 		fireLight.useColorTemperature = true;
 		targetKelvin = currentKelvin = minKelvin;
 		targetIntensity = currentIntensity = minIntensity;
@@ -52,6 +59,9 @@ public class Fireplace : MonoBehaviour
 	}
 	void Update()
 	{
+		if (DataTable.VFXValue != audioSource.volume)
+			audioSource.volume = DataTable.VFXValue;
+
 		if (fireLight == null || !fireLight.enabled)
 			return;
 		

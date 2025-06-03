@@ -32,7 +32,7 @@ public class SkyboxChanger : MonoBehaviour
 
 	public void SetDarkSkybox()
 	{
-		DataTable.OffLights();
+		DataTable.IsLight = false;
 
 		RenderSettings.skybox = darkSkybox;
 		RenderSettings.ambientIntensity = 0f;
@@ -43,7 +43,7 @@ public class SkyboxChanger : MonoBehaviour
 
 	public void SetLightSkybox()
 	{
-		DataTable.OnLights();
+		DataTable.IsLight = true;
 
 		RenderSettings.skybox = lightSkybox;
 		RenderSettings.ambientIntensity = 1f; // 필요에 따라 조절

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum InteractType
 {
-	None, Flashlight, Book, OpenDoor, CloseDoor, Mirror
+	None, Flashlight, OpenDoor, CloseDoor, Mirror
 }
 
 public class FieldObject : MonoBehaviour, IInteractable
@@ -20,17 +20,6 @@ public class FieldObject : MonoBehaviour, IInteractable
 
 		if (textTransform != null)
 			textTransform?.gameObject.SetActive(false);
-	}
-
-	public void SetText(bool enable)
-	{
-		// Destroy 예외처리
-		if (textTransform == null || textTransform.gameObject == null)
-			return;
-
-		Debug.Log($"필드 오브젝트 텍스트 {(enable == true ? "활성화" : "비활성화")}");
-		//textTransform.gameObject.SetActive(enable);
-
 	}
 
 	public void Use(PlayerData data)
