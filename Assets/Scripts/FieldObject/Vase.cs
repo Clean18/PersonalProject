@@ -2,24 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vase : MonoBehaviour
+public class Vase : LightReactObject
 {
-
-	void Awake()
-	{
-		GameEvent.OnLightOn += OnFront;
-		GameEvent.OnLightOff += OnBack;
-	}
-
-	void OnFront()
+	protected override void HandleLightOn()
 	{
 		// y 252
 		transform.rotation = Quaternion.Euler(0, 252, 0);
 	}
 
-	void OnBack()
+	protected override void HandleLightOff()
 	{
-		// y 114f
-		transform.rotation = Quaternion.Euler(0, 114, 0);
+		// y 252
+		transform.rotation = Quaternion.Euler(0, 252, 0);
 	}
 }

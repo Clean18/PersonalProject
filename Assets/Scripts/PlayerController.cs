@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Emit;
+using System.Security.Cryptography;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
 	{
 		// 플레이어 카메라 정면 바라보기
 		data.cameraTransform.rotation = Quaternion.Euler(0, 0, 0);
+
+		data.interactText.gameObject.SetActive(false);
 	}
 
 	void Update()
@@ -140,9 +143,9 @@ public class PlayerController : MonoBehaviour
 				{
 					if (data.textTarget != newTarget)
 					{
-						data.textTarget?.SetText(false);
 						data.textTarget = newTarget;
-						data.textTarget.SetText(true);
+						data.interactText.text = DataTable.CachingString[data.textTarget.interactType];
+						data.interactText.gameObject.SetActive(true);
 					}
 					return;
 				}
@@ -151,8 +154,15 @@ public class PlayerController : MonoBehaviour
 
 		if (data.textTarget != null)
 		{
-			data.textTarget?.SetText(false);
 			data.textTarget = null;
+			data.interactText.gameObject.SetActive(false);
 		}
+	}
+
+	public void OnFootstepSound()
+	{
+		// 애니메이션 이벤트
+		Debug.Log("발걸음 재생");
+		data.sfxSource.PlayOneShot(data.walkSound);
 	}
 }

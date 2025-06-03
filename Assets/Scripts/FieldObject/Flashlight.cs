@@ -33,11 +33,11 @@ public class Flashlight : FieldObject
 
 	void Update()
 	{
-		if (textTransform != null && textTransform.gameObject.activeSelf)
-		{
-			Debug.Log("플레이어 바라보기");
-			textTransform.rotation = Camera.main.transform.rotation;
-		}
+		//if (textTransform != null && textTransform.gameObject.activeSelf)
+		//{
+		//	Debug.Log("플레이어 바라보기");
+		//	textTransform.rotation = Camera.main.transform.rotation;
+		//}
 
 		if (!IsPickUp || !flashlight.enabled)
 			return;
@@ -82,6 +82,7 @@ public class Flashlight : FieldObject
 		IsPickUp = true;
 		gameObject.SetActive(true);
 		flashlight.enabled = false;
+		DataTable.PlayerData.interactText.enabled = false;
 		Debug.Log("손전등 획득");
 	}
 }

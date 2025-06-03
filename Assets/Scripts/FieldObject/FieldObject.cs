@@ -11,7 +11,6 @@ public class FieldObject : MonoBehaviour, IInteractable
 {
 	public InteractType interactType;
 	public Transform textTransform;
-	public TMP_Text itemText;
 
 	protected virtual void Start()
 	{
@@ -19,17 +18,8 @@ public class FieldObject : MonoBehaviour, IInteractable
 		// value : FiendObject
 		DataTable.CachingFieldObject.Add(transform, this);
 
-		if (itemText != null)
-			itemText.text = DataTable.CachingString[interactType];
-
 		if (textTransform != null)
 			textTransform?.gameObject.SetActive(false);
-	}
-
-	void OnEnable()
-	{
-		if (itemText != null)
-			itemText.text = DataTable.CachingString[interactType];
 	}
 
 	public void SetText(bool enable)
@@ -39,7 +29,8 @@ public class FieldObject : MonoBehaviour, IInteractable
 			return;
 
 		Debug.Log($"필드 오브젝트 텍스트 {(enable == true ? "활성화" : "비활성화")}");
-		textTransform.gameObject.SetActive(enable);
+		//textTransform.gameObject.SetActive(enable);
+
 	}
 
 	public void Use(PlayerData data)

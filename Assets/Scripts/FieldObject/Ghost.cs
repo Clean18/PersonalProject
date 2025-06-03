@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ghost : MonoBehaviour
+public class Ghost : LightReactObject
 {
-	void Awake()
-	{
-		GameEvent.OnLightOn += OffGameObject;
-		GameEvent.OnLightOff += OnGameObject;
-	}
-
-	void OnGameObject()
-	{
-		gameObject.SetActive(true);
-	}
-
-	void OffGameObject()
+	protected override void HandleLightOn()
 	{
 		gameObject.SetActive(false);
+	}
+
+	protected override void HandleLightOff()
+	{
+		gameObject.SetActive(true);
 	}
 }

@@ -6,18 +6,31 @@ using UnityEngine;
 public static class DataTable
 {
 	static float sfxValue;
-	public static float SFXValue { get { return sfxValue; } set { sfxValue = value; } }
+	public static float SFXValue
+	{
+		get { return sfxValue; }
+		set
+		{
+			sfxValue = value;
+			if (PlayerData != null)
+				PlayerData.sfxSource.volume = sfxValue;
+		}
+	}
 
 	static float vfxValue;
-	public static float VFXValue { get { return vfxValue; } set { vfxValue = value; } }
+	public static float VFXValue
+	{
+		get { return vfxValue; }
+		set
+		{
+			vfxValue = value;
+		}
+	}
 
 	static float sensitivity;
 	public static float Sensitivity
 	{
-		get
-		{
-			return sensitivity;
-		}
+		get { return sensitivity; }
 		set
 		{
 			sensitivity = value;

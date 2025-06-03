@@ -218,6 +218,6 @@ AnimatorState:
   m_Motion: {fileID: 7358232160488437863}
   m_Tag: 
   m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
+  m_MirrorParameter: IsWalk
+  m_CycleOffsetParameter: Z
+  m_TimeParameter: Z

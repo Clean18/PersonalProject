@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Doll : MonoBehaviour
+public class Doll : LightReactObject
 {
-	void Awake()
-	{
-		GameEvent.OnLightOn += OffGameObject;
-		GameEvent.OnLightOff += OnGameObject;
-	}
-
-	void OnGameObject()
+	protected override void HandleLightOn()
 	{
 		gameObject.SetActive(true);
 	}
 
-	void OffGameObject()
+	protected override void HandleLightOff()
 	{
 		gameObject.SetActive(false);
 	}
