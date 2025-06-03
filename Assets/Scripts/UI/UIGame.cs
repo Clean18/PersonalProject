@@ -117,7 +117,7 @@ public class UIGame : MonoBehaviour
 		Image blackImage = GetComponent<Image>();
 		Color color = blackImage.color;
 
-		float duration = 2f;
+		float duration = 0.5f; // 2로 바꾸기
 		float time = 0f;
 
 		// TODO : 티비 노이즈 지지직소리

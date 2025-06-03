@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class UITitle : MonoBehaviour
 {
@@ -53,6 +54,8 @@ public class UITitle : MonoBehaviour
 	public AudioClip mainBGM;
 	public AudioClip startBGM;
 
+	// 오디오믹서
+	public AudioMixer mixer;
 
 	void Start()
 	{
@@ -144,6 +147,8 @@ public class UITitle : MonoBehaviour
 		bgmValue = value;
 		audioSource.volume = bgmValue;
 		bgmSlider.value = value;
+
+		mixer.SetFloat("BGMVolume", Mathf.Log10(value) * 20);
 	}
 
 	public void OnSFXSliderEvent(float value)

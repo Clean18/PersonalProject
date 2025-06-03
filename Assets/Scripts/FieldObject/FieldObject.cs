@@ -4,22 +4,18 @@ using UnityEngine;
 
 public enum InteractType
 {
-	None, Flashlight, OpenDoor, CloseDoor, Mirror
+	None, Flashlight, OpenDoor, CloseDoor, Mirror, TV
 }
 
 public class FieldObject : MonoBehaviour, IInteractable
 {
 	public InteractType interactType;
-	public Transform textTransform;
 
 	protected virtual void Start()
 	{
 		// key : Transform
 		// value : FiendObject
 		DataTable.CachingFieldObject.Add(transform, this);
-
-		if (textTransform != null)
-			textTransform?.gameObject.SetActive(false);
 	}
 
 	public void Use(PlayerData data)
@@ -44,6 +40,11 @@ public class FieldObject : MonoBehaviour, IInteractable
 					else if (door.DoorState == InteractType.OpenDoor)
 						door.DoorState = InteractType.CloseDoor;
 				}
+				break;
+
+			case InteractType.TV:
+				// 켜져있을 때만 종료
+				if (this is TV tv && tv.IsOn) tv.IsOn = false;
 				break;
 
 			default:

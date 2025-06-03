@@ -51,6 +51,7 @@ public static class DataTable
 		[InteractType.Flashlight] = "E : 손전등 줍기",
 		[InteractType.OpenDoor] = "E : 문 닫기",
 		[InteractType.CloseDoor] = "E : 문 열기",
+		[InteractType.TV] = "E : TV 끄기",
 	};
 
 	
