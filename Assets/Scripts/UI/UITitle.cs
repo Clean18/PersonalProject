@@ -28,6 +28,10 @@ public class UITitle : MonoBehaviour
 	// 세팅 UI
 	public GameObject settings;
 
+	// BGM
+	public Slider bgmSlider;
+	public TMP_Text bgmValueText;
+	public static float bgmValue;
 	// SFX
 	public Slider sfxSlider;
 	public TMP_Text sfxValueText;
@@ -43,6 +47,12 @@ public class UITitle : MonoBehaviour
 	// 문
 	public Transform anchor;
 
+	// audio
+	public AudioSource audioSource;
+	// bgm
+	public AudioClip mainBGM;
+	public AudioClip startBGM;
+
 
 	void Start()
 	{
@@ -53,22 +63,39 @@ public class UITitle : MonoBehaviour
 		settingsButton.onClick.AddListener(OnSettings);
 		exitButton.onClick.AddListener(OnExit);
 
+		bgmSlider.onValueChanged.AddListener(OnBGMSliderEvent);
 		sfxSlider.onValueChanged.AddListener(OnSFXSliderEvent);
 		vfxSlider.onValueChanged.AddListener(OnVFXSliderEvent);
 		sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderEvent);
 		settingsCloseButton.onClick.AddListener(OnSettingsCloseEvent);
 
 		// 초기값 세팅
+		audioSource.volume = bgmValue;
+		OnBGMSliderEvent(0.5f);
 		OnSFXSliderEvent(0.5f);
 		OnVFXSliderEvent(0.5f);
 
 		OnSensitivitySliderEvent(0.5f);
+
+		// 사운드 재생
+		if (audioSource == null) audioSource = Camera.main.gameObject.GetComponent<AudioSource>();
+		audioSource.volume = bgmValue;
+		audioSource.clip = mainBGM;
+		audioSource.loop = true;
+		audioSource.Play();
 	}
 
 	public void OnStart()
 	{
 		// 게임시작
 		Debug.Log("게임시작");
+
+		// 사운드 재생
+		if (audioSource == null) audioSource = Camera.main.gameObject.GetComponent<AudioSource>();
+		audioSource.volume = bgmValue;
+		audioSource.clip = startBGM;
+		audioSource.loop = false;
+		audioSource.Play();
 
 		// 비활성화
 		ToggleMain();
@@ -108,6 +135,15 @@ public class UITitle : MonoBehaviour
 #else
 		Application.Quit(); // 빌드에서 게임 종료
 #endif
+	}
+
+	public void OnBGMSliderEvent(float value)
+	{
+		float Value = value * 100;
+		bgmValueText.text = $"{(int)Value}";
+		bgmValue = value;
+		audioSource.volume = bgmValue;
+		bgmSlider.value = value;
 	}
 
 	public void OnSFXSliderEvent(float value)
