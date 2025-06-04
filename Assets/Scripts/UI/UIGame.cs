@@ -130,10 +130,10 @@ public class UIGame : MonoBehaviour
 		Image blackImage = GetComponent<Image>();
 		Color color = blackImage.color;
 
-		float duration = 0.5f; // 2로 바꾸기
+		float duration = 2f;
 		float time = 0f;
 
-		yield return new WaitForSeconds(0.1f); // 임시로 1초, 3초로 변경하기
+		yield return new WaitForSeconds(3f);
 
 		// 조명키기
 		SkyboxChanger.SetLightSkybox();

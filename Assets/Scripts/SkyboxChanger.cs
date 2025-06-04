@@ -17,22 +17,6 @@ public class SkyboxChanger : MonoBehaviour
 		LightSkybox = lightSkybox;
 	}
 
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.U))
-		{
-			Debug.Log("상태 변경");
-			if (RenderSettings.skybox == DarkSkybox)
-			{
-				SetLightSkybox();
-			}
-			else
-			{
-				SetDarkSkybox();
-			}
-		}
-	}
-
 	public static void SetDarkSkybox()
 	{
 		DataTable.IsLight = false;
