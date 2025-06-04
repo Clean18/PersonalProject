@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Broom : FieldObject
@@ -8,8 +7,11 @@ public class Broom : FieldObject
 	public AudioSource audioSource;
 	public AudioClip scareClip;
 
-	public bool isLooked;
 	public static bool CanTrigger = true;
+	public bool isLooked = false;
+	public bool isInRange = false;
+
+	public Transform cam;
 
 	protected override void Start()
 	{
@@ -19,58 +21,71 @@ public class Broom : FieldObject
 			audioSource = GetComponent<AudioSource>();
 
 		audioSource.outputAudioMixerGroup = DataTable.VFXGroup;
+
+		cam = Camera.main.transform;
 	}
 
 	void Update()
 	{
-		if (!DataTable.IsLight && CanTrigger)
+		// 1. 불꺼짐
+		// 2. 영역안에 들어오고 빗자루를 쳐다봤을 때
+		// 3. Exit 에서 등지면서 나가면 이벤트 실행
+		if (!DataTable.IsLight && CanTrigger && isInRange)
 		{
-			ScarePlay();
+			Trigger();
 		}
 	}
 
-	public void ScarePlay()
+	void Trigger()
 	{
-		// 조건
-		// 불 off
-		// 레이캐스트에 플레이어가 닿았을때
-		// 플레이어가 한번 바라보고 등져있을 때
-
-		Transform cam = Camera.main.transform;
-
 		Vector3 toPlayer = cam.position - transform.position;
-		float distance = toPlayer.magnitude;
-
-		// 1. 범위 안에 있는지
-		bool inRange = distance <= 7f;
-
-		// 2. 시선이 나를 향하고 있는지 90도 이하 등짐 / 90도 이상 시야안
 		float angle = Vector3.Angle(cam.forward, toPlayer.normalized);
 
-		bool isLooking = angle > 90f;
+		bool isLooking = angle > 150f;
 
-		// 3. 시선이 완전히 반대인지 (등짐)
-		bool isBackTurned = angle < 90f;
-
-		if (!isLooked && inRange && isLooking)
+		if (!isLooked && isLooking)
 		{
-			Debug.Log("Bloom : 범위 안 isLooked = true");
+			Debug.Log("Broom : 빗자루 바라봄");
 			isLooked = true;
-			return;
 		}
+	}
 
-		if (isLooked && !inRange && isBackTurned)
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("Player") && CanTrigger)
 		{
-			StartCoroutine(Move());
-			CanTrigger = false;
+			isInRange = true;
+			Debug.Log("Broom : 범위 진입");
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if (other.CompareTag("Player") && CanTrigger)
+		{
+			isInRange = false;
+			Debug.Log("Broom : 범위 벗어남");
+
+			if (isLooked)
+			{
+				// 나갈 때 등돌리고 있으면 실행
+				Vector3 toPlayer = cam.position - transform.position;
+				float angle = Vector3.Angle(cam.forward, toPlayer.normalized);
+				Debug.Log(angle);
+				if (40f < angle && angle < 90f) // 등진 상태
+				{
+					Debug.Log("Broom : 이벤트 실행 (등짐)");
+					StartCoroutine(Move());
+					CanTrigger = false;
+				}
+			}
 		}
 	}
 
 	IEnumerator Move()
 	{
-		Debug.Log("Bloom 이벤트 실행");
 		Quaternion currentRot = transform.localRotation;
-		Quaternion tartgetRot = Quaternion.Euler(85, 90, 0);
+		Quaternion targetRot = Quaternion.Euler(85f, 90f, 0f);
 
 		float time = 0f;
 		float duration = 0.5f;
@@ -80,13 +95,11 @@ public class Broom : FieldObject
 			time += Time.deltaTime;
 			float t = time / duration;
 
-			transform.rotation = Quaternion.Lerp(currentRot, tartgetRot, t);
-
+			transform.rotation = Quaternion.Lerp(currentRot, targetRot, t);
 			yield return null;
 		}
-		yield return null;
-		audioSource.PlayOneShot(scareClip);
-		transform.localRotation = tartgetRot;
-	}
 
+		transform.localRotation = targetRot;
+		audioSource.PlayOneShot(scareClip);
+	}
 }

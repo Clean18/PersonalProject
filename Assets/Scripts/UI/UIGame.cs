@@ -21,6 +21,8 @@ public class UIGame : MonoBehaviour
 	public TMP_Text sensitivityValueText;
 	// Close 버튼
 	public Button settingsCloseButton;
+	// 게임종료 버튼
+	public Button quitGameButton;
 
 	// 오디오믹서
 	public AudioMixer mixer;
@@ -31,6 +33,8 @@ public class UIGame : MonoBehaviour
 		vfxSlider.onValueChanged.AddListener(OnVFXSliderEvent);
 		sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderEvent);
 		settingsCloseButton.onClick.AddListener(OnSettingsCloseEvent);
+
+		quitGameButton.onClick.AddListener(OnExit);
 
 		// 초기값 세팅
 		OnSFXSliderEvent(sfxSlider.value = Mathf.Pow(10f, mixer.GetFloat("SFXVolume", out float sfx) ? sfx / 20f : 0f));
@@ -154,5 +158,15 @@ public class UIGame : MonoBehaviour
 
 		// 마우스 고정
 		StartCoroutine(CursorHold());
+	}
+
+	public void OnExit()
+	{
+		Debug.Log("게임 종료");
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 실행 중지
+#else
+		Application.Quit(); // 빌드에서 게임 종료
+#endif
 	}
 }

@@ -44,15 +44,11 @@ public class PlayerData : MonoBehaviour
 		SoundInit();
 
 		mouseSensitivity = DataTable.Sensitivity;
-		// TODO : 임시코드
-		DataTable.Sensitivity = 50f;
 	}
 
 	void Start()
 	{
-		// TODO : 테스트 후 false로 바꾸기
 		flashLight.gameObject.SetActive(false);
-		//flashLight.SetPickup();
 	}
 
 	void SoundInit()

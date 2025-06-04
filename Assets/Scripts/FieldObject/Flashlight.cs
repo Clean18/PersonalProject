@@ -58,8 +58,6 @@ public class Flashlight : FieldObject
 	{
 		if (sender != this || key != "Flashlight")
 			return;
-
-		// TODO : 손전등 획득 ui 띄워야할듯
 	}
 
 	public void SetPickup()
