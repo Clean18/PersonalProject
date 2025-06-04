@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class UIGame : MonoBehaviour
@@ -21,6 +22,9 @@ public class UIGame : MonoBehaviour
 	// Close 버튼
 	public Button settingsCloseButton;
 
+	// 오디오믹서
+	public AudioMixer mixer;
+
 	void Start()
 	{
 		sfxSlider.onValueChanged.AddListener(OnSFXSliderEvent);
@@ -29,15 +33,15 @@ public class UIGame : MonoBehaviour
 		settingsCloseButton.onClick.AddListener(OnSettingsCloseEvent);
 
 		// 초기값 세팅
-		OnSFXSliderEvent(DataTable.SFXValue);
-		OnVFXSliderEvent(DataTable.VFXValue);
+		OnSFXSliderEvent(sfxSlider.value = Mathf.Pow(10f, mixer.GetFloat("SFXVolume", out float sfx) ? sfx / 20f : 0f));
+		OnVFXSliderEvent(vfxSlider.value = Mathf.Pow(10f, mixer.GetFloat("VFXVolume", out float vfx) ? vfx / 20f : 0f));
+
 		OnSensitivitySliderEvent(DataTable.Sensitivity/ 100);
 
 		ToggleSettings();
 
 		// 시작 연출
 		StartCoroutine(GameStart());
-
 	}
 
 	void Update()
@@ -52,16 +56,18 @@ public class UIGame : MonoBehaviour
 	{
 		float Value = value * 100;
 		sfxValueText.text = $"{(int)Value}";
-		DataTable.SFXValue = value;
 		sfxSlider.value = value;
+
+		mixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20);
 	}
 
 	public void OnVFXSliderEvent(float value)
 	{
 		float Value = value * 100;
 		vfxValueText.text = $"{(int)Value}";
-		DataTable.VFXValue = value;
 		vfxSlider.value = value;
+
+		mixer.SetFloat("VFXVolume", Mathf.Log10(value) * 20);
 	}
 
 	public void OnSensitivitySliderEvent(float value)
@@ -98,6 +104,9 @@ public class UIGame : MonoBehaviour
 
 		Cursor.visible = isOpen;
 		Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
+
+		// 사운드 토글
+		mixer.SetFloat("MasterVolume", isOpen ? -80f : 0f);
 	}
 
 	IEnumerator CursorHold()
@@ -120,10 +129,13 @@ public class UIGame : MonoBehaviour
 		float duration = 0.5f; // 2로 바꾸기
 		float time = 0f;
 
-		// TODO : 티비 노이즈 지지직소리
-
 		yield return new WaitForSeconds(0.1f); // 임시로 1초, 3초로 변경하기
 
+		// 조명키기
+		SkyboxChanger.SetLightSkybox();
+
+		// 숨쉬는 소리 재생
+		DataTable.PlayerData.audioSource.PlayOneShot(DataTable.PlayerData.breathSound);
 		while (time < duration)
 		{
 			time += Time.deltaTime;

@@ -346,9 +346,15 @@ MonoBehaviour:
   interactRayDistance: 1.7
   textTarget: {fileID: 0}
   interactText: {fileID: 560766308944516854}
-  sfxSource: {fileID: 1060591982108070905}
+  audioSource: {fileID: 0}
   walkSound: {fileID: 8300000, guid: b995bc1775ea83b4b8f861763e9a1424, type: 3}
   breathSound: {fileID: 8300000, guid: 41b885dcac20cfb40b001ecd9f228f6d, type: 3}
+  interactSound: {fileID: 8300000, guid: 2efe5772d3f7ce5418e14429f5afa311, type: 3}
+  mixer: {fileID: 24100000, guid: 17d503c2b8fcbe74ebe12667dc796ab1, type: 2}
+  sfxGroup: {fileID: -6391341743265078056, guid: 17d503c2b8fcbe74ebe12667dc796ab1,
+    type: 2}
+  vfxGroup: {fileID: -7677369500072164998, guid: 17d503c2b8fcbe74ebe12667dc796ab1,
+    type: 2}
 --- !u!54 &8044886780150618362
 Rigidbody:
   m_ObjectHideFlags: 0

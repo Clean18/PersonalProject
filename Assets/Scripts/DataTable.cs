@@ -2,30 +2,13 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public static class DataTable
 {
-	static float sfxValue;
-	public static float SFXValue
-	{
-		get { return sfxValue; }
-		set
-		{
-			sfxValue = value;
-			//if (PlayerData != null)
-			//	PlayerData.sfxSource.volume = sfxValue;
-		}
-	}
-
-	static float vfxValue;
-	public static float VFXValue
-	{
-		get { return vfxValue; }
-		set
-		{
-			vfxValue = value;
-		}
-	}
+	public static AudioMixer Mixer;
+	public static AudioMixerGroup SFXGroup;
+	public static AudioMixerGroup VFXGroup;
 
 	static float sensitivity;
 	public static float Sensitivity
@@ -51,9 +34,12 @@ public static class DataTable
 		[InteractType.Flashlight] = "E : 손전등 줍기",
 		[InteractType.OpenDoor] = "E : 문 닫기",
 		[InteractType.CloseDoor] = "E : 문 열기",
-		[InteractType.TV] = "E : TV 끄기",
+		[InteractType.OnTV] = "E : TV 끄기",
+		[InteractType.OffTV] = "E : TV 켜기",
 	};
 
+	// 주방 캐비넷 캐싱
+	public static List<CabinetDoor> CachingCabinet = new();
 	
 	////////////////////////////////////////////////////////////////////////////////
 

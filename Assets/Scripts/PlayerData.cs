@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerData : MonoBehaviour
 {
@@ -22,24 +23,29 @@ public class PlayerData : MonoBehaviour
 	[SerializeField] public FieldObject textTarget;
 	[SerializeField] public TMP_Text interactText;
 
-	[SerializeField] public AudioSource sfxSource;
+	[SerializeField] public AudioSource audioSource;
 	[SerializeField] public AudioClip walkSound;
 	[SerializeField] public AudioClip breathSound;
+	[SerializeField] public AudioClip interactSound;
+
+	[SerializeField] public AudioMixer mixer;
+	[SerializeField] public AudioMixerGroup sfxGroup;
+	[SerializeField] public AudioMixerGroup vfxGroup;
 
 
 	void Awake()
 	{
 		rigid = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
-		sfxSource = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();
 
 		DataTable.PlayerData = this;
+
+		SoundInit();
 
 		mouseSensitivity = DataTable.Sensitivity;
 		// TODO : 임시코드
 		DataTable.Sensitivity = 50f;
-		DataTable.SFXValue = 0.6f;
-		DataTable.VFXValue = 0.6f;
 	}
 
 	void Start()
@@ -47,5 +53,15 @@ public class PlayerData : MonoBehaviour
 		// TODO : 테스트 후 false로 바꾸기
 		flashLight.gameObject.SetActive(false);
 		//flashLight.SetPickup();
+	}
+
+	void SoundInit()
+	{
+		DataTable.Mixer = mixer;
+		DataTable.SFXGroup = sfxGroup;
+		DataTable.VFXGroup = vfxGroup;
+
+		audioSource.outputAudioMixerGroup = sfxGroup;
+
 	}
 }

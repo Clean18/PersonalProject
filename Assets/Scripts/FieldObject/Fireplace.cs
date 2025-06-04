@@ -34,6 +34,7 @@ public class Fireplace : MonoBehaviour
 	void Start()
 	{
 		audioSource = GetComponent<AudioSource>();
+		audioSource.outputAudioMixerGroup = DataTable.VFXGroup;
 		audioSource.clip = fireClip;
 		audioSource.loop = true;
 		audioSource.Play();
@@ -59,9 +60,6 @@ public class Fireplace : MonoBehaviour
 	}
 	void Update()
 	{
-		if (DataTable.VFXValue != audioSource.volume)
-			audioSource.volume = DataTable.VFXValue;
-
 		if (fireLight == null || !fireLight.enabled)
 			return;
 		

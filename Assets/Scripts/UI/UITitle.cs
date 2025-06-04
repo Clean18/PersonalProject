@@ -32,7 +32,6 @@ public class UITitle : MonoBehaviour
 	// BGM
 	public Slider bgmSlider;
 	public TMP_Text bgmValueText;
-	public static float bgmValue;
 	// SFX
 	public Slider sfxSlider;
 	public TMP_Text sfxValueText;
@@ -73,7 +72,6 @@ public class UITitle : MonoBehaviour
 		settingsCloseButton.onClick.AddListener(OnSettingsCloseEvent);
 
 		// 초기값 세팅
-		audioSource.volume = bgmValue;
 		OnBGMSliderEvent(0.5f);
 		OnSFXSliderEvent(0.5f);
 		OnVFXSliderEvent(0.5f);
@@ -82,7 +80,6 @@ public class UITitle : MonoBehaviour
 
 		// 사운드 재생
 		if (audioSource == null) audioSource = Camera.main.gameObject.GetComponent<AudioSource>();
-		audioSource.volume = bgmValue;
 		audioSource.clip = mainBGM;
 		audioSource.loop = true;
 		audioSource.Play();
@@ -95,7 +92,6 @@ public class UITitle : MonoBehaviour
 
 		// 사운드 재생
 		if (audioSource == null) audioSource = Camera.main.gameObject.GetComponent<AudioSource>();
-		audioSource.volume = bgmValue;
 		audioSource.clip = startBGM;
 		audioSource.loop = false;
 		audioSource.Play();
@@ -144,8 +140,6 @@ public class UITitle : MonoBehaviour
 	{
 		float Value = value * 100;
 		bgmValueText.text = $"{(int)Value}";
-		bgmValue = value;
-		audioSource.volume = bgmValue;
 		bgmSlider.value = value;
 
 		mixer.SetFloat("BGMVolume", Mathf.Log10(value) * 20);
@@ -155,16 +149,18 @@ public class UITitle : MonoBehaviour
 	{
 		float Value = value * 100;
 		sfxValueText.text = $"{(int)Value}";
-		DataTable.SFXValue = value;
 		sfxSlider.value = value;
+
+		mixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20);
 	}
 
 	public void OnVFXSliderEvent(float value)
 	{
 		float Value = value * 100;
 		vfxValueText.text = $"{(int)Value}";
-		DataTable.VFXValue = value;
 		vfxSlider.value = value;
+
+		mixer.SetFloat("VFXVolume", Mathf.Log10(value) * 20);
 	}
 
 	public void OnSensitivitySliderEvent(float value)

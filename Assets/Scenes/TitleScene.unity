@@ -18842,6 +18842,7 @@ MonoBehaviour:
   audioSource: {fileID: 1528584283}
   mainBGM: {fileID: 8300000, guid: 3bccaf2597d5a4fd09d593c98906d39c, type: 3}
   startBGM: {fileID: 8300000, guid: a6230bc3905ed4d94beaaf5c1b9dce95, type: 3}
+  mixer: {fileID: 24100000, guid: 17d503c2b8fcbe74ebe12667dc796ab1, type: 2}
 --- !u!114 &1455081969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20538,7 +20539,8 @@ AudioSource:
   m_GameObject: {fileID: 1528584277}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7730942831671018678, guid: 17d503c2b8fcbe74ebe12667dc796ab1,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

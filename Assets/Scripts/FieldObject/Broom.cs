@@ -17,6 +17,8 @@ public class Broom : FieldObject
 
 		if (audioSource == null)
 			audioSource = GetComponent<AudioSource>();
+
+		audioSource.outputAudioMixerGroup = DataTable.VFXGroup;
 	}
 
 	void Update()
@@ -83,7 +85,7 @@ public class Broom : FieldObject
 			yield return null;
 		}
 		yield return null;
-		audioSource.PlayOneShot(scareClip, DataTable.VFXValue);
+		audioSource.PlayOneShot(scareClip);
 		transform.localRotation = tartgetRot;
 	}
 

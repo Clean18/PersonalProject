@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class TV : FieldObject
@@ -33,8 +34,10 @@ public class TV : FieldObject
 	{
 		base.Start();
 
-		interactType = InteractType.TV;
+		interactType = InteractType.OnTV;
 		if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+		audioSource.outputAudioMixerGroup = DataTable.VFXGroup;
 
 		if (isOn)
 			OnTV();
@@ -44,8 +47,9 @@ public class TV : FieldObject
 
 	public void OnTV()
 	{
+		interactType = InteractType.OnTV;
+		noiseMonitor.SetActive(true);
 		audioSource.clip = noiseClip;
-		audioSource.volume = DataTable.SFXValue;
 		audioSource.loop = true;
 		audioSource.Play();
 	}
@@ -54,9 +58,8 @@ public class TV : FieldObject
 	{
 		// 노이즈 끄기
 		// 사운드 종료
+		interactType = InteractType.OffTV;
 		noiseMonitor.SetActive(false);
 		audioSource.Stop();
 	}
-
-
 }

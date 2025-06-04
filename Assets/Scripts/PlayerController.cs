@@ -119,12 +119,18 @@ public class PlayerController : MonoBehaviour
 	public void Interact()
 	{
 		Ray ray = new Ray(data.cameraTransform.position, data.cameraTransform.forward);
+
 		Debug.DrawRay(ray.origin, ray.direction * data.interactRayDistance, Color.red, 2f);
+
 		RaycastHit[] hits = Physics.RaycastAll(ray, data.interactRayDistance);
 		foreach (RaycastHit hit in hits)
 		{
+			if (hit.collider.CompareTag("Wall")) return;
 			if (DataTable.CachingFieldObject.TryGetValue(hit.transform, out FieldObject obj))
+			{
 				obj.Use(data);
+				data.interactText.gameObject.SetActive(false);
+			}
 		}
 	}
 
@@ -163,6 +169,6 @@ public class PlayerController : MonoBehaviour
 	{
 		// 애니메이션 이벤트
 		//Debug.Log("발걸음 재생");
-		data.sfxSource.PlayOneShot(data.walkSound, DataTable.SFXValue);
+		data.audioSource.PlayOneShot(data.walkSound);
 	}
 }

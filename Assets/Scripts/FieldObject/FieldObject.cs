@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum InteractType
 {
-	None, Flashlight, OpenDoor, CloseDoor, Mirror, TV
+	None, Flashlight, OpenDoor, CloseDoor, Mirror, OnTV, OffTV
 }
 
 public class FieldObject : MonoBehaviour, IInteractable
@@ -20,6 +20,9 @@ public class FieldObject : MonoBehaviour, IInteractable
 
 	public void Use(PlayerData data)
 	{
+		if (interactType == InteractType.None)
+			data.audioSource.PlayOneShot(data.interactSound);
+
 		switch (interactType)
 		{
 			case InteractType.Flashlight:
@@ -42,9 +45,12 @@ public class FieldObject : MonoBehaviour, IInteractable
 				}
 				break;
 
-			case InteractType.TV:
+			case InteractType.OnTV:
+			case InteractType.OffTV:
 				// 켜져있을 때만 종료
-				if (this is TV tv && tv.IsOn) tv.IsOn = false;
+				if (this is TV tv)
+					tv.IsOn = !tv.IsOn; // 토글
+					//tv.IsOn = false;
 				break;
 
 			default:

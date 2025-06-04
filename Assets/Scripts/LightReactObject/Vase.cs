@@ -12,7 +12,7 @@ public class Vase : LightReactObject
 
 	protected override void HandleLightOff()
 	{
-		// y 252
-		transform.rotation = Quaternion.Euler(0, 252, 0);
+		// y 108
+		transform.rotation = Quaternion.Euler(0, 108, 0);
 	}
 }
