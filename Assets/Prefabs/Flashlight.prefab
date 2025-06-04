@@ -283,6 +283,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d239edd7e677b034a8106ad243c22e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactType: 2
+  textTransform: {fileID: 0}
+  itemText: {fileID: 0}
+  flashlight: {fileID: 0}
+  cameraTransform: {fileID: 0}
+  gameInfoText: {fileID: 0}
 --- !u!65 &9089282452933609931
 BoxCollider:
   m_ObjectHideFlags: 0

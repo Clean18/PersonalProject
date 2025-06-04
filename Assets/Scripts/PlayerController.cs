@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
+﻿using System.Reflection.Emit;
+using System.Security.Cryptography;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,55 +9,54 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
 	{
-		SetMouseHold();
+		// 플레이어 카메라 정면 바라보기
+		data.cameraTransform.rotation = Quaternion.Euler(0, 0, 0);
+
+		data.interactText.gameObject.SetActive(false);
 	}
 
 	void Update()
 	{
+		// 카메라 방향
 		Look();
 
-		// 마우스 커서 활성화 / 비활성화
-		// ESC면 false, 클릭이면 true
-		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Mouse0))
-			SetMouseHold(Input.GetKeyDown(KeyCode.Mouse0));
+		// 에임 위치에 레이로 아이템 이름 표시
+		ShowItemName();
 
 		// 손전등 활성화 / 비활성화
 		if (Input.GetKeyDown(KeyCode.R))
-			ItemEvent.OnToggle?.Invoke("Flashlight");
+			GameEvent.OnToggle?.Invoke("Flashlight", data.flashLight);
 
 		// 상호작용
 		if (Input.GetKeyDown(KeyCode.E))
 			Interact();
-
-
 	}
 
 	void FixedUpdate()
 	{
 		Move();
+		data.rigid.angularVelocity = Vector3.zero;
 	}
 
 	public void Look()
 	{
 		Vector2 lookInput = GetLookInput();
 
-		// 처음 0f 에서 상하
+		// 수직 : 카메라
 		data.rotationX -= lookInput.y;
 		data.rotationX = Mathf.Clamp(data.rotationX, -90f, 90f);
-
-		// 수직
 		data.cameraTransform.localRotation = Quaternion.Euler(data.rotationX, 0, 0);
 
-		// 수평
-		Quaternion deltaRotation = Quaternion.Euler(0f, lookInput.x, 0f);
-		data.rigid.MoveRotation(data.rigid.rotation * deltaRotation);
+		// 수평 : 플레이어
+		float newY = transform.eulerAngles.y + lookInput.x;
+		transform.rotation = Quaternion.Euler(0, newY, 0);
 	}
 
-	private Vector2 GetLookInput()
+	Vector2 GetLookInput()
 	{
 		float mouseX = 0;
 		float mouseY = 0;
-		if (data.mouseHold)
+		if (Cursor.lockState == CursorLockMode.Locked)
 		{
 			mouseX = Input.GetAxis("Mouse X") * data.mouseSensitivity * Time.deltaTime;
 			mouseY = Input.GetAxis("Mouse Y") * data.mouseSensitivity * Time.deltaTime;
@@ -71,7 +69,6 @@ public class PlayerController : MonoBehaviour
 		if (!data.canMove)
 			return;
 
-
 		Vector3 moveInput = GetMoveInput();
 
 		bool isWalking = moveInput != Vector3.zero;
@@ -80,13 +77,18 @@ public class PlayerController : MonoBehaviour
 		data.anim.SetFloat("Z", moveInput.z);
 		data.anim.SetFloat("X", moveInput.x);
 
-		Vector3 moveDir = transform.right * moveInput.x + transform.forward * moveInput.z;
-		
+		Vector3 forward = Vector3.ProjectOnPlane(data.cameraTransform.forward, Vector3.up).normalized;
+		Vector3 right = Vector3.ProjectOnPlane(data.cameraTransform.right, Vector3.up).normalized;
+		Vector3 moveDir = right * moveInput.x + forward * moveInput.z;
+
 		// 바닥의 경사에 따라 이동벡터 보정
 		Vector3 fixedDir = IsSlope(out RaycastHit hit) ? Vector3.ProjectOnPlane(moveDir, hit.normal).normalized : moveDir;
 
-		Vector3 moveDelta = fixedDir * data.moveSpeed * Time.fixedDeltaTime;
-		data.rigid.MovePosition(data.rigid.position + moveDelta);
+		// velocity
+		Vector3 velocity = fixedDir * data.moveSpeed;
+		velocity.y = data.rigid.velocity.y;
+
+		data.rigid.velocity = velocity;
 	}
 
 
@@ -102,41 +104,71 @@ public class PlayerController : MonoBehaviour
 		return false;
 	}
 
-	private Vector3 GetMoveInput()
+	Vector3 GetMoveInput()
 	{
 		float x = 0;
 		float z = 0;
-		if (data.mouseHold)
+		if (Cursor.lockState == CursorLockMode.Locked)
 		{
 			x = Input.GetAxis("Horizontal");
 			z = Input.GetAxis("Vertical");
 		}
-
 		return new Vector3(x, 0, z).normalized;
-	}
-
-	public void SetMouseHold()
-	{
-		SetMouseHold(!data.mouseHold);
-	}
-
-	public void SetMouseHold(bool enable)
-	{
-		data.mouseHold = enable;
-
-		Cursor.lockState = data.mouseHold == true ? CursorLockMode.Locked : CursorLockMode.None;
-		Cursor.visible = !data.mouseHold;
 	}
 
 	public void Interact()
 	{
 		Ray ray = new Ray(data.cameraTransform.position, data.cameraTransform.forward);
+
 		Debug.DrawRay(ray.origin, ray.direction * data.interactRayDistance, Color.red, 2f);
+
 		RaycastHit[] hits = Physics.RaycastAll(ray, data.interactRayDistance);
 		foreach (RaycastHit hit in hits)
 		{
-			IInteractable obj = hit.collider.GetComponent<IInteractable>();
-			obj?.Use(data);
+			if (hit.collider.CompareTag("Wall")) return;
+			if (DataTable.CachingFieldObject.TryGetValue(hit.transform, out FieldObject obj))
+			{
+				obj.Use(data);
+				data.interactText.gameObject.SetActive(false);
+			}
 		}
+	}
+
+	public void ShowItemName()
+	{
+		Ray ray = new Ray(data.cameraTransform.position, data.cameraTransform.forward);
+		Debug.DrawRay(ray.origin, ray.direction * data.interactRayDistance, Color.green, 1f);
+		if (Physics.Raycast(ray, out RaycastHit hit, data.interactRayDistance))
+		{
+			// 인터렉터블 오브젝트인지 체크
+			if (hit.collider.CompareTag("FieldObject"))
+			{
+				FieldObject newTarget;
+
+				if (DataTable.CachingFieldObject.TryGetValue(hit.transform, out newTarget))
+				{
+					if (data.textTarget != newTarget)
+					{
+						data.textTarget = newTarget;
+						data.interactText.text = DataTable.CachingString[data.textTarget.interactType];
+						data.interactText.gameObject.SetActive(true);
+					}
+					return;
+				}
+			}
+		}
+
+		if (data.textTarget != null)
+		{
+			data.textTarget = null;
+			data.interactText.gameObject.SetActive(false);
+		}
+	}
+
+	public void OnFootstepSound()
+	{
+		// 애니메이션 이벤트
+		//Debug.Log("발걸음 재생");
+		data.audioSource.PlayOneShot(data.walkSound);
 	}
 }
