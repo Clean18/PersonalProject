@@ -72,7 +72,7 @@ public class Broom : FieldObject
 				Vector3 toPlayer = cam.position - transform.position;
 				float angle = Vector3.Angle(cam.forward, toPlayer.normalized);
 				Debug.Log(angle);
-				if (40f < angle && angle < 90f) // 등진 상태
+				if (30f < angle && angle < 120f) // 등진 상태
 				{
 					Debug.Log("Broom : 이벤트 실행 (등짐)");
 					StartCoroutine(Move());

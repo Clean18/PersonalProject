@@ -24,11 +24,15 @@ public class UIGame : MonoBehaviour
 	// 게임종료 버튼
 	public Button quitGameButton;
 
+	public GameObject scareImage;
+
 	// 오디오믹서
 	public AudioMixer mixer;
 
 	void Start()
 	{
+		DataTable.UIGame = this;
+
 		sfxSlider.onValueChanged.AddListener(OnSFXSliderEvent);
 		vfxSlider.onValueChanged.AddListener(OnVFXSliderEvent);
 		sensitivitySlider.onValueChanged.AddListener(OnSensitivitySliderEvent);
@@ -37,12 +41,15 @@ public class UIGame : MonoBehaviour
 		quitGameButton.onClick.AddListener(OnExit);
 
 		// 초기값 세팅
-		OnSFXSliderEvent(sfxSlider.value = Mathf.Pow(10f, mixer.GetFloat("SFXVolume", out float sfx) ? sfx / 20f : 0f));
-		OnVFXSliderEvent(vfxSlider.value = Mathf.Pow(10f, mixer.GetFloat("VFXVolume", out float vfx) ? vfx / 20f : 0f));
+		OnSFXSliderEvent(DataTable.sfxValue);
+		OnVFXSliderEvent(DataTable.vfxValue);
 
-		OnSensitivitySliderEvent(DataTable.Sensitivity/ 100);
+		OnSensitivitySliderEvent(DataTable.Sensitivity / 100);
+
+		scareImage.SetActive(false);
 
 		ToggleSettings();
+
 
 		// 시작 연출
 		StartCoroutine(GameStart());
@@ -76,9 +83,6 @@ public class UIGame : MonoBehaviour
 
 	public void OnSensitivitySliderEvent(float value)
 	{
-		// 최소치
-		value = Mathf.Max(value, 0.01f);
-
 		float Value = value * 100;
 		sensitivityValueText.text = $"{(int)Value}";
 		DataTable.Sensitivity = Value;

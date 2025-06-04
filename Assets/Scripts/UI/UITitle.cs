@@ -150,6 +150,7 @@ public class UITitle : MonoBehaviour
 		float Value = value * 100;
 		sfxValueText.text = $"{(int)Value}";
 		sfxSlider.value = value;
+		DataTable.sfxValue = value;
 
 		mixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20);
 	}
@@ -159,6 +160,7 @@ public class UITitle : MonoBehaviour
 		float Value = value * 100;
 		vfxValueText.text = $"{(int)Value}";
 		vfxSlider.value = value;
+		DataTable.vfxValue = value;
 
 		mixer.SetFloat("VFXVolume", Mathf.Log10(value) * 20);
 	}

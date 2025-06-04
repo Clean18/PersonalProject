@@ -27,6 +27,7 @@ public class PlayerData : MonoBehaviour
 	[SerializeField] public AudioClip walkSound;
 	[SerializeField] public AudioClip breathSound;
 	[SerializeField] public AudioClip interactSound;
+	[SerializeField] public AudioClip zepSound;
 
 	[SerializeField] public AudioMixer mixer;
 	[SerializeField] public AudioMixerGroup sfxGroup;

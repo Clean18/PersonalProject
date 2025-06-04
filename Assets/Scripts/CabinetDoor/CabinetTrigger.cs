@@ -12,21 +12,30 @@ public class CabinetTrigger : MonoBehaviour
 
 		if (CanFirstTrigger && DataTable.IsLight)
 		{
-			// 첫 트리거: 문 열고 불 끔
+			Debug.Log("캐비넷 트리거 인");
+			// 첫 트리거: 문 열기
 			foreach (CabinetDoor value in DataTable.CachingCabinet)
 			{
 				value.OpenDoor();
 			}
-			SkyboxChanger.SetDarkSkybox();
 			CanFirstTrigger = false;
 		}
-		else if (CanSecondTrigger && !DataTable.IsLight)
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if (!other.CompareTag("Player"))
+			return;
+
+		if (CanSecondTrigger && DataTable.IsLight)
 		{
-			// 두 번째 트리거: 문 닫기
+			Debug.Log("캐비넷 트리거 아웃");
+			// 두 번째 트리거: 문 닫고 불끄기
 			foreach (CabinetDoor value in DataTable.CachingCabinet)
 			{
 				value.CloseDoor();
 			}
+			SkyboxChanger.SetDarkSkybox();
 			CanSecondTrigger = false;
 		}
 	}

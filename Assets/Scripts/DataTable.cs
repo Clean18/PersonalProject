@@ -10,6 +10,9 @@ public static class DataTable
 	public static AudioMixerGroup SFXGroup;
 	public static AudioMixerGroup VFXGroup;
 
+	public static float sfxValue;
+	public static float vfxValue;
+
 	static float sensitivity;
 	public static float Sensitivity
 	{
@@ -70,4 +73,6 @@ public static class DataTable
 				GameEvent.OnLightOff?.Invoke();
 		}
 	}
+
+	public static UIGame UIGame;
 }
